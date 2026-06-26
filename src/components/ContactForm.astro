@@ -1,0 +1,99 @@
+---
+import config from '../lib/config';
+
+interface Props {
+  variant?: 'hero' | 'standalone' | 'sidebar';
+  servicePreselect?: string;
+  heading?: string;
+  cta?: string;
+}
+
+const {
+  variant = 'standalone',
+  servicePreselect = '',
+  heading = 'See if your industry is open',
+  cta = 'Get My Free Plan',
+} = Astro.props;
+const isCompact = variant === 'hero' || variant === 'sidebar';
+---
+
+<div class:list={['contact-form', `contact-form--${variant}`]}>
+  {variant !== 'sidebar' && (
+    <div class="form-header">
+      <h3 class="form-heading">{heading}</h3>
+      <p class="form-subtext">No obligation. We reply within one business day.</p>
+    </div>
+  )}
+
+  <form action={config.form.action} method="POST" class="the-form">
+    <div style="position:absolute;left:-9999px;" aria-hidden="true">
+      <label for={`website-${variant}`}>Leave empty</label>
+      <input type="text" name="website" id={`website-${variant}`} tabindex="-1" autocomplete="off" />
+    </div>
+
+    <div class="form-field">
+      <label for={`name-${variant}`}>Full Name</label>
+      <input type="text" id={`name-${variant}`} name="name" placeholder="Full name*" required />
+    </div>
+    <div class="form-field">
+      <label for={`phone-${variant}`}>Phone</label>
+      <input type="tel" id={`phone-${variant}`} name="phone" placeholder="Phone*" required />
+    </div>
+    <div class="form-field">
+      <label for={`email-${variant}`}>Email</label>
+      <input type="email" id={`email-${variant}`} name="email" placeholder="Email*" required />
+    </div>
+    <div class="form-field">
+      <label for={`service-${variant}`}>Interested in</label>
+      <select id={`service-${variant}`} name="service">
+        <option value="">What can we help with?</option>
+        {config.services.map(s => (
+          <option value={s.name} selected={s.slug === servicePreselect}>{s.name}</option>
+        ))}
+        <option value="Not sure yet">Not sure yet</option>
+      </select>
+    </div>
+    {!isCompact && (
+      <div class="form-field">
+        <label for={`message-${variant}`}>Message</label>
+        <textarea id={`message-${variant}`} name="message" placeholder="What's your industry and goal?" rows="4"></textarea>
+      </div>
+    )}
+    <button type="submit" class="btn btn-primary btn-full form-submit">{cta} &rarr;</button>
+  </form>
+
+  <p class="form-trust-line">Prices upfront. One client per industry in Topeka.</p>
+</div>
+
+<style>
+  .contact-form { width: 100%; }
+  .form-header { margin-bottom: var(--space-lg); }
+  .form-heading { font-size: var(--text-xl); margin-bottom: var(--space-xs); }
+  .form-subtext { font-size: var(--text-sm); color: var(--color-text-muted); margin: 0; }
+  .the-form { display: flex; flex-direction: column; gap: var(--space-md); }
+  .form-field label { display: block; font-size: var(--text-sm); font-weight: 500; color: var(--color-text); margin-bottom: 0.25rem; }
+  .form-field input, .form-field select, .form-field textarea {
+    width: 100%; padding: 0.8rem 1rem; font-family: var(--font-body); font-size: var(--text-base);
+    color: var(--color-text); background: var(--color-white); border: 1px solid var(--color-gray-300);
+    border-radius: var(--radius-sm); transition: border-color var(--transition-fast), box-shadow var(--transition-fast); appearance: none;
+  }
+  .form-field select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M6 8L1 3h10z' fill='%236b7891'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 1rem center; padding-right: 2.5rem;
+  }
+  .form-field input:focus, .form-field select:focus, .form-field textarea:focus {
+    outline: none; border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb), 0.14);
+  }
+  .form-field textarea { resize: vertical; min-height: 100px; }
+  .form-submit { margin-top: var(--space-sm); font-size: var(--text-lg); padding: 1rem; }
+  .form-trust-line { text-align: center; font-size: var(--text-sm); color: var(--color-text-muted); margin-top: var(--space-md); margin-bottom: 0; }
+  .contact-form--hero .form-field label,
+  .contact-form--sidebar .form-field label {
+    position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0);
+  }
+  .contact-form--sidebar .form-field input, .contact-form--sidebar .form-field select {
+    padding: 0.65rem 0.875rem; font-size: var(--text-sm);
+  }
+  .contact-form--sidebar .form-submit { font-size: var(--text-base); padding: 0.8rem; }
+  .contact-form--hero { background: var(--color-white); border-radius: var(--radius-lg); padding: var(--space-xl); box-shadow: var(--shadow-lg); }
+</style>

@@ -1,0 +1,54 @@
+---
+import config from '../lib/config';
+import { servicePath } from '../lib/config';
+import ContactForm from './ContactForm.astro';
+interface Props { currentSlug: string; priceSummary?: string; }
+const { currentSlug, priceSummary } = Astro.props;
+const { phone, phone_raw } = config.business;
+---
+<aside class="sidebar">
+  <div class="sidebar-sticky">
+    <div class="side-card side-price">
+      {priceSummary && <span class="side-price-figure">{priceSummary}</span>}
+      <p class="side-price-label">Price published. No quote-gating.</p>
+      <a href={`tel:${phone_raw}`} class="btn btn-primary btn-full">Call {phone}</a>
+      <a href="#lead" class="btn btn-outline btn-full" style="margin-top:0.5rem;">Get my free plan</a>
+      <ul class="side-trust">
+        <li>★ {config.trust_signals.rating} rating on {config.trust_signals.review_platform}</li>
+        <li>$0 agency fee on ads</li>
+        <li>One client per industry</li>
+      </ul>
+    </div>
+
+    <div class="side-card side-form" id="lead">
+      <ContactForm variant="sidebar" servicePreselect={currentSlug} cta="Send" heading="" />
+    </div>
+
+    <div class="side-card side-nav">
+      <p class="side-head">All services</p>
+      <ul>
+        {config.services.map((s) => (
+          <li><a href={servicePath(s.slug)} class:list={{ active: s.slug === currentSlug }}>{s.nav_name || s.name}</a></li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</aside>
+
+<style>
+  .sidebar-sticky { display: flex; flex-direction: column; gap: var(--space-lg); }
+  @media (min-width: 1024px) { .sidebar-sticky { position: sticky; top: calc(var(--header-height) + 1rem); } }
+  .side-card { background: var(--color-white); border: 1px solid var(--color-gray-200); border-radius: var(--radius-card); padding: var(--space-lg); }
+  .side-price { border-color: var(--color-primary); box-shadow: var(--shadow-md); text-align: center; }
+  .side-price-figure { display: block; font-family: var(--font-heading); font-size: var(--text-3xl); font-weight: 800; color: var(--color-primary); letter-spacing: -0.03em; line-height: 1; }
+  .side-price-label { font-size: var(--text-sm); color: var(--color-text-muted); margin: 0.5rem 0 var(--space-md); }
+  .side-trust { list-style: none; padding: 0; margin: var(--space-md) 0 0; text-align: left; display: flex; flex-direction: column; gap: 0.4rem; }
+  .side-trust li { font-size: 0.82rem; color: var(--color-text-light); padding-left: 0; }
+  .side-trust li::before { content: ''; }
+  .side-head { font-family: var(--font-heading); font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-text-muted); margin-bottom: var(--space-sm); }
+  .side-nav ul { list-style: none; padding: 0; margin: 0; }
+  .side-nav li { margin-bottom: 1px; }
+  .side-nav a { display: block; padding: 0.45rem 0.6rem; border-radius: var(--radius-sm); font-size: 0.9rem; font-weight: 500; color: var(--color-text-light); }
+  .side-nav a:hover { background: var(--color-light); color: var(--color-primary); }
+  .side-nav a.active { background: rgba(var(--color-primary-rgb), 0.08); color: var(--color-primary); font-weight: 600; }
+</style>

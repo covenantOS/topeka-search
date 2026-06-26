@@ -1,0 +1,54 @@
+---
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import PageHero from '../../components/PageHero.astro';
+import CTABand from '../../components/CTABand.astro';
+import config from '../../lib/config';
+const cases = config.case_studies;
+const categories = [...new Set(cases.map(c => c.category))];
+---
+<Base title="Case Studies & Results | Topeka SEO & PPC" description="Case studies behind Topeka SEO & PPC: Map Pack rank jumps, $0-agency-fee Google Ads ROI, and websites returning 1,000%+. The ServiceLine Pro track record.">
+  <Header slot="header" />
+  <PageHero
+    eyebrow="Results"
+    title="Case studies that earned the strategy"
+    subtitle="Topeka SEO & PPC runs the ServiceLine Pro playbook. Here is what that playbook has produced across local search, paid ads, and web."
+    crumbs={[{ name: 'Home', href: '/' }, { name: 'Results' }]}
+  />
+
+  <section class="section">
+    <div class="container">
+      <div class="case-grid">
+        {cases.map((cs) => (
+          <article class="case-card reveal">
+            <span class="case-cat">{cs.category}</span>
+            <span class="case-result">{cs.metrics?.primary || cs.result}</span>
+            {cs.metrics?.secondary && <span class="case-secondary">{cs.metrics.secondary}</span>}
+            <h2 class="case-title">{cs.title}</h2>
+            {cs.industry && <span class="case-industry">{cs.industry}</span>}
+            {cs.blurb && <p class="case-blurb">{cs.blurb}</p>}
+          </article>
+        ))}
+      </div>
+      <p class="case-note">These are documented results from the ServiceLine Pro client book. Topeka-specific case studies are being added as our local clients ramp.</p>
+    </div>
+  </section>
+
+  <CTABand showForm={false} />
+  <Footer slot="footer" />
+</Base>
+
+<style>
+  .case-grid { display: grid; grid-template-columns: 1fr; gap: var(--space-lg); }
+  @media (min-width: 640px) { .case-grid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1024px) { .case-grid { grid-template-columns: repeat(3, 1fr); } }
+  .case-card { background: var(--color-white); border: 1px solid var(--color-gray-200); border-radius: var(--radius-card); padding: var(--space-xl); display: flex; flex-direction: column; gap: 0.3rem; border-top: 3px solid var(--color-primary); }
+  .case-cat { font-family: var(--font-heading); font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-primary); }
+  .case-result { font-family: var(--font-heading); font-size: var(--text-2xl); font-weight: 800; color: var(--color-dark); letter-spacing: -0.02em; line-height: 1.1; margin-top: 0.3rem; }
+  .case-secondary { color: var(--color-accent); font-weight: 700; font-size: 0.9rem; }
+  .case-title { font-size: var(--text-lg); margin-top: var(--space-sm); }
+  .case-industry { font-size: 0.8rem; color: var(--color-text-muted); }
+  .case-blurb { color: var(--color-text-light); font-size: 0.92rem; line-height: 1.55; margin: var(--space-sm) 0 0; }
+  .case-note { margin-top: var(--space-2xl); text-align: center; color: var(--color-text-muted); font-size: 0.9rem; }
+</style>

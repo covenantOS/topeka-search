@@ -1,0 +1,195 @@
+---
+import config from '../lib/config';
+import { servicePath } from '../lib/config';
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+
+const FEATURED = ['seo', 'google-ads-management', 'web-design'];
+const featured = FEATURED.map((s) => config.services.find((x) => x.slug === s)).filter(Boolean) as typeof config.services;
+const more = config.services.filter((s) => !FEATURED.includes(s.slug));
+const { phone, phone_raw } = config.business;
+const rating = config.trust_signals.rating;
+---
+
+<header class="site-header" id="siteHeader">
+  <div class="util-bar">
+    <div class="container util-inner">
+      <span class="util-rating"><span class="stars" aria-hidden="true">★★★★★</span> {rating} on {config.trust_signals.review_platform}</span>
+      <span class="util-promise">Prices upfront · $0 agency fee on Google Ads · one client per industry</span>
+      <a class="util-phone" href={`tel:${phone_raw}`}>{phone}</a>
+    </div>
+  </div>
+
+  <div class="nav-bar">
+    <div class="container nav-inner">
+      <Logo href="/" size={40} showEndorsement={true} />
+
+      <nav class="desktop-nav" aria-label="Primary">
+        <div class="nav-item has-mega">
+          <button class="nav-link nav-trigger" aria-expanded="false" aria-haspopup="true">
+            Services
+            <svg class="caret" width="10" height="10" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 8L1 3h10z" fill="currentColor"/></svg>
+          </button>
+          <div class="mega">
+            <div class="mega-featured">
+              {featured.map((s) => (
+                <a href={servicePath(s.slug)} class="mega-card">
+                  <span class="mega-card-icon"><Icon name={s.icon} size={22} /></span>
+                  <span class="mega-card-name">{s.nav_name || s.name}</span>
+                  <span class="mega-card-tag">{s.tagline}</span>
+                  <span class="mega-card-price">{s.price_summary}</span>
+                </a>
+              ))}
+            </div>
+            <div class="mega-more">
+              <p class="mega-more-head">More services</p>
+              <div class="mega-more-list">
+                {more.map((s) => (
+                  <a href={servicePath(s.slug)}>{s.nav_name || s.name}</a>
+                ))}
+              </div>
+              <a href="/pricing/" class="mega-cta link-arrow">All services &amp; pricing</a>
+            </div>
+          </div>
+        </div>
+        <a class="nav-link" href="/pricing/">Pricing</a>
+        <a class="nav-link" href="/work/">Work</a>
+        <a class="nav-link" href="/case-studies/">Results</a>
+        <a class="nav-link" href="/about/">About</a>
+      </nav>
+
+      <div class="nav-cta">
+        <a class="nav-phone" href={`tel:${phone_raw}`} aria-label={`Call ${phone}`}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6.6 10.8a15 15 0 006.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.2.4 2.4.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 013 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.3 1l-2.2 2.2z" fill="currentColor"/></svg>
+          <span>{phone}</span>
+        </a>
+        <a class="btn btn-primary btn-sm nav-quote" href="/contact/">Get My Free Plan</a>
+        <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="mobile-nav" id="mobileNav" hidden>
+    <nav aria-label="Mobile">
+      <p class="m-head">Services</p>
+      <div class="m-featured">
+        {featured.map((s) => (
+          <a href={servicePath(s.slug)} class="m-feat"><span>{s.nav_name || s.name}</span><span class="m-price">{s.price_summary}</span></a>
+        ))}
+      </div>
+      <details>
+        <summary>More services</summary>
+        <div class="m-more">
+          {more.map((s) => <a href={servicePath(s.slug)}>{s.nav_name || s.name}</a>)}
+        </div>
+      </details>
+      <a href="/pricing/">Pricing</a>
+      <a href="/work/">Work</a>
+      <a href="/case-studies/">Results</a>
+      <a href="/about/">About</a>
+      <a href="/contact/" class="btn btn-primary btn-full" style="margin-top:1rem;">Get My Free Plan</a>
+      <a href={`tel:${phone_raw}`} class="btn btn-outline btn-full" style="margin-top:0.6rem;">Call {phone}</a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header { position: sticky; top: 0; z-index: 100; background: var(--color-white); }
+  .util-bar { background: var(--color-dark); color: rgba(255,255,255,0.75); font-size: var(--text-sm); }
+  .util-inner { display: flex; align-items: center; gap: 1rem; padding-block: 0.45rem; }
+  .util-rating { display: inline-flex; align-items: center; gap: 0.4rem; color: #fff; font-weight: 500; white-space: nowrap; }
+  .util-rating .stars { color: var(--color-accent); font-size: 0.85rem; }
+  .util-promise { color: rgba(255,255,255,0.7); }
+  .util-phone { margin-left: auto; color: #fff; font-weight: 600; white-space: nowrap; }
+  .util-phone:hover { color: var(--color-accent); }
+  @media (max-width: 860px) { .util-promise { display: none; } }
+
+  .nav-bar { border-bottom: 1px solid var(--color-gray-200); transition: box-shadow var(--transition-base); }
+  .site-header.scrolled .nav-bar { box-shadow: var(--shadow-md); }
+  .nav-inner { display: flex; align-items: center; gap: var(--space-lg); height: var(--header-height); }
+
+  .desktop-nav { display: none; align-items: center; gap: 0.15rem; margin-left: auto; }
+  @media (min-width: 1024px) { .desktop-nav { display: flex; } }
+  .nav-link { font-family: var(--font-heading); font-weight: 600; font-size: 0.95rem; color: var(--color-text); padding: 0.5rem 0.85rem; border-radius: var(--radius-sm); background: none; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; }
+  .nav-link:hover { color: var(--color-primary); }
+  .caret { transition: transform var(--transition-fast); opacity: 0.6; }
+
+  .nav-item { position: relative; }
+  .nav-item.has-mega:hover .caret { transform: rotate(180deg); }
+  .mega {
+    position: absolute; top: calc(100% + 10px); left: 50%; transform: translateX(-50%) translateY(8px);
+    width: 780px; max-width: 92vw; background: var(--color-white); border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); padding: var(--space-lg);
+    display: grid; grid-template-columns: 1.55fr 1fr; gap: var(--space-lg);
+    opacity: 0; visibility: hidden; transition: opacity var(--transition-fast), transform var(--transition-fast); z-index: 110;
+  }
+  .mega::before { content: ''; position: absolute; top: -10px; left: 0; right: 0; height: 10px; }
+  .nav-item.has-mega:hover .mega, .nav-item.has-mega:focus-within .mega { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+
+  .mega-featured { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+  .mega-featured .mega-card:first-child { grid-column: 1 / -1; flex-direction: row; align-items: center; flex-wrap: wrap; }
+  .mega-card { display: flex; flex-direction: column; gap: 0.3rem; padding: var(--space-md); border: 1px solid var(--color-gray-200); border-radius: var(--radius-md); color: var(--color-text); transition: all var(--transition-fast); position: relative; }
+  .mega-card:hover { border-color: var(--color-primary); background: var(--color-light); color: var(--color-text); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+  .mega-card-icon { width: 38px; height: 38px; border-radius: 10px; background: rgba(var(--color-primary-rgb), 0.09); color: var(--color-primary); display: grid; place-items: center; }
+  .mega-card-name { font-family: var(--font-heading); font-weight: 700; color: var(--color-dark); font-size: 1rem; }
+  .mega-card-tag { font-size: 0.8rem; color: var(--color-text-muted); line-height: 1.35; flex: 1; }
+  .mega-card-price { font-family: var(--font-heading); font-weight: 700; color: var(--color-primary); font-size: 0.82rem; }
+  .mega-featured .mega-card:first-child .mega-card-icon { margin-right: 0.2rem; }
+  .mega-featured .mega-card:first-child .mega-card-name { flex-basis: auto; }
+  .mega-featured .mega-card:first-child .mega-card-tag { flex-basis: 100%; }
+
+  .mega-more { border-left: 1px solid var(--color-gray-200); padding-left: var(--space-lg); }
+  .mega-more-head { font-family: var(--font-heading); font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-text-muted); margin-bottom: var(--space-sm); }
+  .mega-more-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0.1rem 0.75rem; }
+  .mega-more-list a { font-size: 0.85rem; color: var(--color-text-light); padding: 0.3rem 0; }
+  .mega-more-list a:hover { color: var(--color-primary); }
+  .mega-cta { display: inline-flex; margin-top: var(--space-md); font-weight: 700; color: var(--color-primary); font-size: 0.9rem; }
+
+  .nav-cta { display: flex; align-items: center; gap: 0.6rem; margin-left: auto; }
+  @media (min-width: 1024px) { .nav-cta { margin-left: 0; } }
+  .nav-phone { display: none; align-items: center; gap: 6px; font-family: var(--font-heading); font-weight: 700; color: var(--color-dark); font-size: 0.95rem; }
+  .nav-phone:hover { color: var(--color-primary); }
+  @media (min-width: 600px) { .nav-phone { display: inline-flex; } }
+  .nav-quote { display: none; }
+  @media (min-width: 1024px) { .nav-quote { display: inline-flex; } }
+
+  .hamburger { display: inline-flex; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 6px; }
+  @media (min-width: 1024px) { .hamburger { display: none; } }
+  .hamburger span { width: 24px; height: 2px; background: var(--color-dark); border-radius: 2px; transition: all var(--transition-fast); }
+  .hamburger[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+  .hamburger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .mobile-nav { position: fixed; inset: calc(var(--header-height) + 33px) 0 0 0; background: var(--color-white); overflow-y: auto; padding: var(--space-lg); z-index: 99; }
+  .mobile-nav nav { display: flex; flex-direction: column; gap: 0.25rem; }
+  .m-head { font-family: var(--font-heading); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-text-muted); font-weight: 700; margin-bottom: 0.4rem; }
+  .m-featured { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 0.6rem; }
+  .m-feat { display: flex; justify-content: space-between; padding: 0.7rem 0.8rem; border: 1px solid var(--color-gray-200); border-radius: var(--radius-md); font-family: var(--font-heading); font-weight: 600; color: var(--color-text); }
+  .m-price { color: var(--color-primary); }
+  .mobile-nav a { padding: 0.7rem 0.5rem; font-family: var(--font-heading); font-weight: 600; color: var(--color-text); }
+  .mobile-nav > nav > a { border-bottom: 1px solid var(--color-gray-100); }
+  .mobile-nav .btn { border-bottom: none; }
+  .mobile-nav details summary { padding: 0.7rem 0.5rem; font-family: var(--font-heading); font-weight: 700; cursor: pointer; border-bottom: 1px solid var(--color-gray-100); }
+  .m-more { display: grid; grid-template-columns: 1fr 1fr; padding: 0.5rem 0; }
+  .m-more a { font-weight: 500; font-size: 0.9rem; border: none; }
+</style>
+
+<script>
+  const header = document.getElementById('siteHeader');
+  const ham = document.getElementById('hamburger');
+  const mobileNav = document.getElementById('mobileNav');
+  if (ham && mobileNav) {
+    ham.addEventListener('click', () => {
+      const open = ham.getAttribute('aria-expanded') === 'true';
+      ham.setAttribute('aria-expanded', String(!open));
+      mobileNav.hidden = open;
+      document.body.style.overflow = open ? '' : 'hidden';
+    });
+    mobileNav.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => {
+      ham.setAttribute('aria-expanded', 'false'); mobileNav.hidden = true; document.body.style.overflow = '';
+    }));
+  }
+  const onScroll = () => header && header.classList.toggle('scrolled', window.scrollY > 8);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+</script>

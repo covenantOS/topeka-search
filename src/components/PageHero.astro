@@ -1,0 +1,35 @@
+---
+import Breadcrumbs from './Breadcrumbs.astro';
+interface Crumb { name: string; href?: string; }
+interface Props {
+  eyebrow?: string;
+  title: string;
+  subtitle?: string;
+  crumbs?: Crumb[];
+}
+const { eyebrow, title, subtitle, crumbs } = Astro.props;
+---
+<section class="page-hero">
+  <div class="container">
+    {crumbs && <div class="page-hero-crumbs"><Breadcrumbs crumbs={crumbs} light /></div>}
+    {eyebrow && <span class="page-hero-eyebrow">{eyebrow}</span>}
+    <h1 class="page-hero-title">{title}</h1>
+    {subtitle && <p class="page-hero-sub">{subtitle}</p>}
+    <slot />
+  </div>
+</section>
+<style>
+  .page-hero { background: var(--color-dark); color: #fff; padding-block: var(--space-3xl); position: relative; overflow: hidden; }
+  .page-hero::after {
+    content: ''; position: absolute; inset: 0;
+    background:
+      radial-gradient(60% 90% at 85% 0%, rgba(var(--color-primary-rgb), 0.35), transparent 60%),
+      radial-gradient(40% 80% at 0% 100%, rgba(var(--color-accent-rgb), 0.18), transparent 55%);
+    pointer-events: none;
+  }
+  .page-hero .container { position: relative; z-index: 1; }
+  .page-hero-crumbs { margin-bottom: var(--space-lg); }
+  .page-hero-eyebrow { display: inline-block; font-family: var(--font-heading); font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--color-accent); margin-bottom: var(--space-sm); }
+  .page-hero-title { color: #fff; max-width: 18ch; }
+  .page-hero-sub { color: rgba(255,255,255,0.78); font-size: var(--text-lg); max-width: 60ch; margin-top: var(--space-md); }
+</style>

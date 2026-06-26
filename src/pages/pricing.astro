@@ -1,0 +1,77 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import PageHero from '../components/PageHero.astro';
+import CTABand from '../components/CTABand.astro';
+import config from '../lib/config';
+import { servicePath } from '../lib/config';
+
+const groups = (config.service_groups || []).map(g => ({
+  ...g,
+  services: config.services.filter(s => s.group === g.slug),
+}));
+---
+<Base title="Pricing | Topeka SEO & PPC" description="Every price, published. Local SEO $2,500/mo, websites $250/mo, Google Ads at $0 agency fee, and more for Topeka businesses. No quote-gating.">
+  <Header slot="header" />
+  <PageHero
+    eyebrow="Pricing"
+    title="Every price. On the page."
+    subtitle="Most Topeka agencies hide their pricing behind a sales call. We publish ours. Here is what each service costs, in full."
+    crumbs={[{ name: 'Home', href: '/' }, { name: 'Pricing' }]}
+  />
+
+  <section class="section">
+    <div class="container">
+      {groups.map((g) => (
+        <div class="price-group">
+          <h2 class="accent-line">{g.name}</h2>
+          <div class="price-rows">
+            {g.services.map((s) => (
+              <a href={servicePath(s.slug)} class="price-row">
+                <div class="pr-main">
+                  <span class="pr-name">{s.name}</span>
+                  <span class="pr-tag">{s.tagline}</span>
+                </div>
+                <div class="pr-price">
+                  <span class="pr-figure">{s.price_summary}</span>
+                  {s.pricing?.note && <span class="pr-note">{s.pricing.note}</span>}
+                </div>
+                <span class="pr-arrow link-arrow">View</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      ))}
+
+      <div class="price-disclaimer">
+        <p><strong>How our money works.</strong> On paid advertising (Google, Microsoft, streaming) we charge a $0 agency fee, so 100% of your budget funds your campaigns. Flat-fee platforms (ChatGPT, Apple Maps, Yelp, Local Services Ads) carry a published management fee plus your ad spend. SEO, AI SEO, websites, branding, and social are flat monthly or one-time prices. No setup surprises, no percentage skim.</p>
+      </div>
+    </div>
+  </section>
+
+  <CTABand showForm={false} heading="Know the price? Let's see if your industry is open." text="One client per category in Topeka. Claim yours before a competitor does." />
+  <Footer slot="footer" />
+</Base>
+
+<style>
+  .price-group { margin-bottom: var(--space-3xl); }
+  .price-group h2 { margin-bottom: var(--space-lg); }
+  .price-rows { display: flex; flex-direction: column; gap: 0.6rem; }
+  .price-row {
+    display: grid; grid-template-columns: 1fr auto; gap: 0.5rem 1.5rem; align-items: center;
+    padding: var(--space-lg); background: var(--color-white); border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-card); color: var(--color-text); transition: border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
+  }
+  @media (min-width: 768px) { .price-row { grid-template-columns: 1.6fr 1.4fr auto; } }
+  .price-row:hover { border-color: var(--color-primary); box-shadow: var(--shadow-md); transform: translateY(-2px); color: var(--color-text); }
+  .pr-name { display: block; font-family: var(--font-heading); font-weight: 700; font-size: var(--text-lg); color: var(--color-dark); }
+  .pr-tag { display: block; color: var(--color-text-muted); font-size: 0.9rem; }
+  .pr-price { display: flex; flex-direction: column; }
+  .pr-figure { font-family: var(--font-heading); font-weight: 800; font-size: var(--text-xl); color: var(--color-primary); letter-spacing: -0.02em; }
+  .pr-note { font-size: 0.78rem; color: var(--color-text-muted); max-width: 42ch; }
+  .pr-arrow { color: var(--color-text-muted); font-weight: 600; font-size: 0.9rem; }
+  .price-row:hover .pr-arrow { color: var(--color-primary); }
+  .price-disclaimer { margin-top: var(--space-xl); padding: var(--space-xl); background: var(--color-light); border-radius: var(--radius-card); }
+  .price-disclaimer p { margin: 0; color: var(--color-text-light); max-width: none; }
+</style>

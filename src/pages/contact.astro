@@ -1,0 +1,66 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ContactForm from '../components/ContactForm.astro';
+import PageHero from '../components/PageHero.astro';
+import config from '../lib/config';
+const b = config.business;
+---
+<Base title={`Contact ${b.name} | Topeka, KS`} description={`Talk to ${b.name}, the Topeka marketing agency with prices upfront. Call ${b.phone} or send a message. One client per industry in Topeka, KS.`}>
+  <Header slot="header" />
+  <PageHero
+    eyebrow="Contact"
+    title="Let's see if your category is open"
+    subtitle="Tell us your industry and goal. We reply within one business day with a price and a plan. No obligation, no quote-gating."
+    crumbs={[{ name: 'Home', href: '/' }, { name: 'Contact' }]}
+  />
+
+  <section class="section">
+    <div class="container contact-grid">
+      <div class="contact-form-wrap">
+        <ContactForm variant="standalone" heading="Get your free plan" cta="Get My Free Plan" />
+      </div>
+      <div class="contact-details">
+        <h2 class="accent-line">Reach us directly</h2>
+        <ul class="contact-list">
+          <li>
+            <span class="cl-label">Call or text</span>
+            <a href={`tel:${b.phone_raw}`} class="cl-value">{b.phone}</a>
+          </li>
+          <li>
+            <span class="cl-label">Email</span>
+            <a href={`mailto:${b.email}`} class="cl-value">{b.email}</a>
+          </li>
+          <li>
+            <span class="cl-label">Office</span>
+            <span class="cl-value">{b.address.street}<br />{b.address.city}, {b.address.state} {b.address.zip}</span>
+          </li>
+          <li>
+            <span class="cl-label">Hours</span>
+            <span class="cl-value">{b.hours}</span>
+          </li>
+        </ul>
+        <div class="contact-map">
+          <iframe
+            title="Topeka, Kansas map"
+            src="https://www.google.com/maps?q=Topeka,Kansas&output=embed"
+            width="100%" height="280" style="border:0;border-radius:var(--radius-md);"
+            loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</Base>
+
+<style>
+  .contact-grid { display: grid; grid-template-columns: 1fr; gap: var(--space-2xl); align-items: start; }
+  @media (min-width: 900px) { .contact-grid { grid-template-columns: 1fr 1fr; } }
+  .contact-form-wrap { background: var(--color-white); border: 1px solid var(--color-gray-200); border-radius: var(--radius-lg); padding: var(--space-xl); box-shadow: var(--shadow-md); }
+  .contact-list { list-style: none; padding: 0; margin: var(--space-lg) 0; display: flex; flex-direction: column; gap: var(--space-lg); }
+  .cl-label { display: block; font-family: var(--font-heading); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-text-muted); margin-bottom: 0.2rem; }
+  .cl-value { font-size: 1.1rem; font-weight: 600; color: var(--color-dark); }
+  a.cl-value:hover { color: var(--color-primary); }
+</style>

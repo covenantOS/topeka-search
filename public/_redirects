@@ -1,0 +1,7 @@
+# Cloudflare Pages redirects
+# Format: /old-path  /new-path  301
+# Common variations -> canonical service URLs
+/seo            /seo-topeka/            301
+/ppc            /ppc-management-topeka/ 301
+/web-design     /web-design-topeka/     301
+/services       /                       301

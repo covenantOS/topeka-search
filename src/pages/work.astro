@@ -1,0 +1,59 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import PageHero from '../components/PageHero.astro';
+import CTABand from '../components/CTABand.astro';
+import config from '../lib/config';
+
+// Real client sites. Add more by dropping a screenshot in /media/work/ and a row here.
+const projects = [
+  { name: 'Total Turf & Auto', url: 'totalturfauto.com', location: 'Topeka, KS', industry: 'Auto & Diesel Repair', img: '/media/work/total-turf-auto.webp', blurb: 'A fast, conversion-built site for a Topeka auto and diesel shop, made to rank locally and book appointments.' },
+];
+---
+<Base title="Our Work | Topeka SEO & PPC" description="Real websites built and ranked by Topeka SEO & PPC. Fast, conversion-focused sites for local businesses in Topeka and beyond.">
+  <Header slot="header" />
+  <PageHero
+    eyebrow="Our work"
+    title="Real sites. Real businesses. Real rankings."
+    subtitle="We've shipped hundreds of high-performing websites. Here's a look at the kind of work we do for local businesses."
+    crumbs={[{ name: 'Home', href: '/' }, { name: 'Work' }]}
+  />
+  <section class="section">
+    <div class="container">
+      <div class="work-grid">
+        {projects.map((p) => (
+          <article class="work-card">
+            <div class="browser">
+              <div class="browser-bar"><span></span><span></span><span></span><div class="browser-url">{p.url}</div></div>
+              <img src={p.img} alt={`${p.name} website`} width="1000" height="640" loading="lazy" />
+            </div>
+            <div class="work-meta">
+              <h2>{p.name}</h2>
+              <span class="work-tags">{p.industry} · {p.location}</span>
+              <p>{p.blurb}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+      <p class="work-note">This is a small sample. We've built and maintain hundreds of sites across home services, healthcare, legal, automotive, and more. Want to see work in your industry? <a href="/contact/">Just ask.</a></p>
+    </div>
+  </section>
+  <CTABand showForm={false} heading="Want a site that actually ranks and converts?" text="Websites start at $250/month, unlimited pages and updates included. One client per industry in Topeka." />
+  <Footer slot="footer" />
+</Base>
+<style>
+  .work-grid { display: grid; grid-template-columns: 1fr; gap: var(--space-2xl); }
+  @media (min-width: 900px) { .work-grid { grid-template-columns: 1fr 1fr; } }
+  .work-card { display: flex; flex-direction: column; gap: var(--space-md); }
+  .browser { border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md); border: 1px solid var(--color-gray-200); }
+  .browser-bar { display: flex; align-items: center; gap: 6px; padding: 0.55rem 0.75rem; background: var(--color-gray-100); border-bottom: 1px solid var(--color-gray-200); }
+  .browser-bar span { width: 9px; height: 9px; border-radius: 50%; background: var(--color-gray-300); }
+  .browser-bar span:nth-child(1) { background: #e85b4a; } .browser-bar span:nth-child(2) { background: #f0c419; } .browser-bar span:nth-child(3) { background: #4caf50; }
+  .browser-url { margin-left: 0.5rem; font-size: 0.72rem; color: var(--color-text-muted); background: var(--color-white); border-radius: var(--radius-pill); padding: 0.15rem 0.7rem; }
+  .browser img { width: 100%; height: auto; display: block; }
+  .work-meta h2 { font-size: var(--text-xl); }
+  .work-tags { font-size: 0.82rem; color: var(--color-primary); font-weight: 600; }
+  .work-meta p { color: var(--color-text-light); margin-top: 0.4rem; }
+  .work-note { margin-top: var(--space-3xl); text-align: center; color: var(--color-text-muted); }
+</style>

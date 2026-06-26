@@ -1,0 +1,134 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Sidebar from '../components/Sidebar.astro';
+import PricingTable from '../components/PricingTable.astro';
+import ProcessSteps from '../components/ProcessSteps.astro';
+import FAQ from '../components/FAQ.astro';
+import ReviewsSection from '../components/ReviewsSection.astro';
+import CTABand from '../components/CTABand.astro';
+import config from '../lib/config';
+import { servicePath } from '../lib/config';
+import { renderMarkdown, parseFrontmatter } from '../lib/markdown';
+
+export function getStaticPaths() {
+  return config.services.map((service) => {
+    const file = path.resolve(`./src/content/services/${service.slug}.md`);
+    let frontmatter: any = {};
+    let body = '';
+    if (fs.existsSync(file)) {
+      const parsed = parseFrontmatter(fs.readFileSync(file, 'utf8'));
+      frontmatter = parsed.data;
+      body = parsed.body;
+    }
+    return {
+      params: { service: `${service.slug}-topeka` },
+      props: { service, frontmatter, body },
+    };
+  });
+}
+
+const { service, frontmatter, body } = Astro.props;
+const { phone, phone_raw } = config.business;
+const bodyHtml = body ? renderMarkdown(body) : '';
+const faq = frontmatter.faq || [];
+const process = frontmatter.process || [];
+
+const h1 = frontmatter.h1 || `${service.name} in Topeka, Kansas`;
+const metaTitle = frontmatter.meta_title || `${service.name} in Topeka, KS${config.seo.title_suffix}`;
+const metaDesc = frontmatter.meta_description || service.short_description;
+const siteUrl = `https://${config.seo.domain}`;
+const url = `${siteUrl}${servicePath(service.slug)}`;
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: `${service.name} in Topeka, KS`,
+    serviceType: service.name,
+    description: service.short_description,
+    provider: { '@id': `${siteUrl}/#business` },
+    areaServed: { '@type': 'City', name: 'Topeka', containedInPlace: { '@type': 'State', name: 'Kansas' } },
+    url,
+  },
+  faq.length > 0 && {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((q: any) => ({
+      '@type': 'Question',
+      name: q.question,
+      acceptedAnswer: { '@type': 'Answer', text: q.answer },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: siteUrl + '/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: siteUrl + '/#services' },
+      { '@type': 'ListItem', position: 3, name: service.name, item: url },
+    ],
+  },
+].filter(Boolean);
+---
+
+<Base title={metaTitle} description={metaDesc} schema={schema} canonical={url}>
+  <Header slot="header" />
+
+  <!-- Service hero -->
+  <section class="svc-hero">
+    <div class="container">
+      <Breadcrumbs light crumbs={[{ name: 'Home', href: '/' }, { name: 'Services', href: '/#services' }, { name: service.name }]} />
+      <span class="svc-hero-eyebrow">{service.tagline}</span>
+      <h1>{h1}</h1>
+      {frontmatter.hero_subhead && <p class="svc-hero-sub">{frontmatter.hero_subhead}</p>}
+      <div class="svc-hero-actions">
+        <a href="#lead" class="btn btn-white btn-lg">Get My Free Plan</a>
+        <a href={`tel:${phone_raw}`} class="btn btn-outline-light btn-lg">Call {phone}</a>
+      </div>
+      <span class="svc-hero-price">{service.price_summary} · price published, no quote-gating</span>
+    </div>
+  </section>
+
+  <div class="section">
+    <div class="container">
+      <div class="content-layout">
+        <article class="main-content prose">
+          {frontmatter.intro && <p class="svc-intro">{frontmatter.intro}</p>}
+          <div set:html={bodyHtml} />
+
+          <div class="svc-block"><PricingTable pricing={service.pricing} serviceName={service.name} /></div>
+          {process.length > 0 && <div class="svc-block"><ProcessSteps steps={process} /></div>}
+          {faq.length > 0 && <div class="svc-block"><FAQ questions={faq} /></div>}
+        </article>
+
+        <Sidebar currentSlug={service.slug} priceSummary={service.price_summary} />
+      </div>
+    </div>
+  </div>
+
+  <ReviewsSection compact={false} maxReviews={3} heading="Results that back it up" />
+
+  <CTABand showForm={true} servicePreselect={service.slug}
+    heading={`Ready for ${service.name.toLowerCase()} in Topeka?`}
+    text="See your price, check that your industry is still open, and get a no-obligation plan for the 785." />
+
+  <Footer slot="footer" />
+</Base>
+
+<style>
+  .svc-hero { background: var(--color-dark); color: #fff; padding-block: var(--space-2xl) var(--space-3xl); position: relative; overflow: hidden; }
+  .svc-hero::after { content: ''; position: absolute; inset: 0; background: radial-gradient(55% 80% at 90% 0%, rgba(var(--color-primary-rgb), 0.35), transparent 60%); pointer-events: none; }
+  .svc-hero .container { position: relative; z-index: 1; }
+  .svc-hero-eyebrow { display: inline-block; margin-top: var(--space-lg); font-family: var(--font-heading); font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--color-accent); }
+  .svc-hero h1 { color: #fff; margin: var(--space-sm) 0 var(--space-md); max-width: 18ch; }
+  .svc-hero-sub { color: rgba(255,255,255,0.82); font-size: var(--text-lg); max-width: 60ch; margin-bottom: var(--space-lg); }
+  .svc-hero-actions { display: flex; flex-wrap: wrap; gap: var(--space-md); margin-bottom: var(--space-md); }
+  .svc-hero-price { display: inline-block; font-size: 0.9rem; color: rgba(255,255,255,0.65); }
+  .svc-intro { font-size: 1.2rem; line-height: 1.7; color: var(--color-text); font-weight: 500; margin-bottom: var(--space-xl); max-width: none; }
+  .svc-block { margin-top: var(--space-3xl); }
+</style>

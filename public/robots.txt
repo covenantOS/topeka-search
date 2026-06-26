@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+
+# AI / GEO crawlers explicitly welcomed (see /llms.txt)
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+Sitemap: https://topekasearch.com/sitemap-index.xml

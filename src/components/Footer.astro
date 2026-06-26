@@ -1,0 +1,96 @@
+---
+import config from '../lib/config';
+import { servicePath } from '../lib/config';
+import Logo from './Logo.astro';
+
+const groups = (config.service_groups || []).map(g => ({
+  ...g,
+  services: config.services.filter(s => s.group === g.slug),
+}));
+const b = config.business;
+const year = 2026;
+const builtBy = config.built_by;
+---
+
+<footer class="site-footer">
+  <div class="footer-accent"></div>
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <Logo href="/" variant="light" size={40} />
+      <p class="footer-desc">{b.description}</p>
+      <div class="footer-endorse">
+        <span>An agency by</span>
+        <a href={builtBy.url} target="_blank" rel="noopener">
+          <img src={`/${builtBy.logo_white}`} alt={builtBy.name} width="120" height="36" loading="lazy" />
+        </a>
+      </div>
+    </div>
+
+    {groups.map(g => (
+      <div class="footer-col">
+        <p class="footer-head">{g.name}</p>
+        <ul>
+          {g.services.map(s => (
+            <li><a href={servicePath(s.slug)}>{s.nav_name || s.name}</a></li>
+          ))}
+        </ul>
+      </div>
+    ))}
+
+    <div class="footer-col">
+      <p class="footer-head">Contact</p>
+      <ul class="footer-contact">
+        <li><a href={`tel:${b.phone_raw}`}>{b.phone}</a></li>
+        <li><a href={`mailto:${b.email}`}>{b.email}</a></li>
+        <li>{b.address.street}<br />{b.address.city}, {b.address.state} {b.address.zip}</li>
+        <li>{b.hours}</li>
+      </ul>
+      <div class="footer-links-secondary">
+        <a href="/pricing/">Pricing</a><a href="/case-studies/">Results</a>
+        <a href="/about/">About</a><a href="/contact/">Contact</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="container footer-bottom-inner">
+      <p>© {year} {b.legal_name}. {config.business.spoken_name} serves {b.market}.</p>
+      <div class="footer-bottom-links">
+        <a href="/privacy-policy/">Privacy</a>
+        <a href="/sitemap-index.xml">Sitemap</a>
+        <span>Built by <a href={builtBy.url} target="_blank" rel="noopener">{builtBy.name}</a></span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer { background: var(--color-darker); color: rgba(255,255,255,0.62); }
+  .footer-accent { height: 3px; background: linear-gradient(to right, var(--color-primary), var(--color-accent)); }
+  .footer-grid {
+    display: grid; grid-template-columns: 1fr; gap: var(--space-2xl);
+    padding-block: var(--space-3xl) var(--space-2xl);
+  }
+  @media (min-width: 640px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1024px) { .footer-grid { grid-template-columns: 2fr 1fr 1fr 1fr 1.3fr; } }
+
+  .footer-brand { max-width: 360px; }
+  .footer-desc { font-size: 0.9rem; line-height: 1.7; margin: var(--space-md) 0 var(--space-lg); color: rgba(255,255,255,0.6); }
+  .footer-endorse { display: flex; flex-direction: column; gap: 6px; font-size: 0.78rem; color: rgba(255,255,255,0.45); }
+  .footer-endorse img { opacity: 0.95; }
+
+  .footer-head { font-family: var(--font-heading); font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #fff; margin-bottom: var(--space-md); }
+  .footer-col ul { list-style: none; padding: 0; margin: 0; }
+  .footer-col li { margin-bottom: 0.55rem; }
+  .footer-col a { color: rgba(255,255,255,0.62); font-size: 0.9rem; }
+  .footer-col a:hover { color: var(--color-accent); }
+  .footer-contact li { font-size: 0.9rem; line-height: 1.6; margin-bottom: 0.7rem; }
+  .footer-links-secondary { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; margin-top: var(--space-md); }
+  .footer-links-secondary a { font-size: 0.82rem; }
+
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); }
+  .footer-bottom-inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.75rem; padding-block: var(--space-lg); font-size: 0.8rem; color: rgba(255,255,255,0.45); }
+  .footer-bottom-links { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
+  .footer-bottom-links a { color: rgba(255,255,255,0.6); }
+  .footer-bottom-links a:hover { color: var(--color-accent); }
+</style>

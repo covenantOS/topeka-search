@@ -1,0 +1,58 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import PageHero from '../../components/PageHero.astro';
+import CTABand from '../../components/CTABand.astro';
+import { parseFrontmatter } from '../../lib/markdown';
+
+const dir = path.resolve('./src/content/blog');
+const posts = fs.existsSync(dir)
+  ? fs.readdirSync(dir).filter(f => f.endsWith('.md')).map((f) => {
+      const { data } = parseFrontmatter(fs.readFileSync(path.join(dir, f), 'utf8'));
+      return { slug: f.replace(/\.md$/, ''), ...data };
+    }).sort((a: any, b: any) => String(b.date).localeCompare(String(a.date)))
+  : [];
+---
+<Base title="Topeka SEO & PPC Blog | Local Search Tips" description="Plain-English local SEO, Google Ads, and web advice for Topeka businesses. Real pricing, real strategy, from Topeka SEO & PPC.">
+  <Header slot="header" />
+  <PageHero
+    eyebrow="Blog"
+    title="Local search, explained for Topeka"
+    subtitle="No fluff. Real pricing, real strategy, and how to actually win Google in the 785."
+    crumbs={[{ name: 'Home', href: '/' }, { name: 'Blog' }]}
+  />
+  <section class="section">
+    <div class="container">
+      {posts.length === 0 ? (
+        <p>New articles are on the way.</p>
+      ) : (
+        <div class="blog-grid">
+          {posts.map((p: any) => (
+            <a href={`/blog/${p.slug}/`} class="blog-card reveal">
+              <span class="blog-date">{p.date}</span>
+              <h2 class="blog-title">{p.title}</h2>
+              {p.excerpt && <p class="blog-excerpt">{p.excerpt}</p>}
+              <span class="link-arrow blog-read">Read</span>
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+  <CTABand showForm={false} />
+  <Footer slot="footer" />
+</Base>
+<style>
+  .blog-grid { display: grid; grid-template-columns: 1fr; gap: var(--space-lg); }
+  @media (min-width: 768px) { .blog-grid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1100px) { .blog-grid { grid-template-columns: repeat(3, 1fr); } }
+  .blog-card { background: var(--color-white); border: 1px solid var(--color-gray-200); border-radius: var(--radius-card); padding: var(--space-xl); display: flex; flex-direction: column; gap: 0.5rem; color: var(--color-text); transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base); }
+  .blog-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-card-hover); border-color: var(--color-primary); color: var(--color-text); }
+  .blog-date { font-size: 0.78rem; color: var(--color-text-muted); font-weight: 600; }
+  .blog-title { font-size: var(--text-xl); }
+  .blog-excerpt { color: var(--color-text-light); font-size: 0.95rem; line-height: 1.55; margin: 0; flex: 1; }
+  .blog-read { color: var(--color-primary); font-weight: 700; font-size: 0.9rem; }
+</style>

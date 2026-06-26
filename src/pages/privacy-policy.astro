@@ -1,0 +1,31 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import PageHero from '../components/PageHero.astro';
+import config from '../lib/config';
+const b = config.business;
+---
+<Base title="Privacy Policy | Topeka SEO & PPC" description="How Topeka SEO & PPC collects and uses information submitted through this website." noindex={true}>
+  <Header slot="header" />
+  <PageHero eyebrow="Legal" title="Privacy Policy" crumbs={[{ name: 'Home', href: '/' }, { name: 'Privacy Policy' }]} />
+  <section class="section">
+    <div class="container" style="max-width:780px;">
+      <div class="prose">
+        <p>This Privacy Policy explains how {b.legal_name}, operating as {b.name} ("we", "us"), handles information collected through {config.seo.domain}.</p>
+        <h2>Information we collect</h2>
+        <p>When you submit a form on this site, we collect the details you provide, such as your name, phone number, email address, and any message or service interest. We may also collect standard, non-identifying analytics data about how visitors use the site.</p>
+        <h2>How we use it</h2>
+        <p>We use your information to respond to your inquiry, prepare a proposal, and communicate with you about our services. We do not sell your personal information.</p>
+        <h2>Sharing</h2>
+        <p>We may share information with service providers that help us operate the site and our business (for example, form delivery and email tools), only as needed to provide our services.</p>
+        <h2>Your choices</h2>
+        <p>You can ask us to access, correct, or delete the information you submitted by emailing <a href={`mailto:${b.email}`}>{b.email}</a>. You can opt out of marketing messages at any time.</p>
+        <h2>Contact</h2>
+        <p>{b.name}<br />{b.address.street}, {b.address.city}, {b.address.state} {b.address.zip}<br /><a href={`tel:${b.phone_raw}`}>{b.phone}</a> · <a href={`mailto:${b.email}`}>{b.email}</a></p>
+        <p><em>This page is a general template and is not legal advice. Have counsel review it before launch.</em></p>
+      </div>
+    </div>
+  </section>
+  <Footer slot="footer" />
+</Base>

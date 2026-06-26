@@ -1,0 +1,59 @@
+---
+import config from '../lib/config';
+interface Props {
+  heading?: string;
+  text?: string;
+  variant?: 'primary' | 'dark';
+  showForm?: boolean;
+  servicePreselect?: string;
+}
+const {
+  heading = 'Find out if your industry is still open in Topeka',
+  text = 'We take one client per category. See your price, claim your spot, and get a plan for the 785 with no obligation.',
+  variant = 'primary',
+  showForm = false,
+  servicePreselect = '',
+} = Astro.props;
+const { phone, phone_raw } = config.business;
+import ContactForm from './ContactForm.astro';
+---
+<section class:list={['cta-band', variant]}>
+  <div class="container">
+    {showForm ? (
+      <div class="cta-split">
+        <div class="cta-copy">
+          <h2>{heading}</h2>
+          <p>{text}</p>
+          <div class="cta-actions">
+            <a class="btn btn-white btn-lg" href={`tel:${phone_raw}`}>Call {phone}</a>
+          </div>
+        </div>
+        <div class="cta-form"><ContactForm variant="hero" servicePreselect={servicePreselect} /></div>
+      </div>
+    ) : (
+      <div class="cta-center">
+        <h2>{heading}</h2>
+        <p>{text}</p>
+        <div class="cta-actions">
+          <a class="btn btn-white btn-lg" href="/contact/">Get My Free Plan</a>
+          <a class="btn btn-outline-light btn-lg" href={`tel:${phone_raw}`}>Call {phone}</a>
+        </div>
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .cta-band { color: #fff; }
+  .cta-band.primary { background: linear-gradient(120deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 70%, var(--color-accent))); padding-block: var(--space-3xl); }
+  .cta-band.dark { background: var(--color-dark); padding-block: var(--space-3xl); }
+  .cta-center { text-align: center; max-width: 760px; margin-inline: auto; }
+  .cta-band h2 { color: #fff; margin-bottom: var(--space-md); }
+  .cta-band p { color: rgba(255,255,255,0.9); font-size: var(--text-lg); max-width: 60ch; margin-inline: auto; margin-bottom: var(--space-xl); }
+  .cta-actions { display: flex; flex-wrap: wrap; gap: var(--space-md); justify-content: center; }
+  .cta-split { display: grid; grid-template-columns: 1fr; gap: var(--space-2xl); align-items: center; }
+  @media (min-width: 900px) { .cta-split { grid-template-columns: 1.1fr 0.9fr; } }
+  .cta-split .cta-copy p { margin-inline: 0; }
+  .cta-split .cta-actions { justify-content: flex-start; }
+  .cta-split h2 { font-size: var(--text-3xl); }
+</style>

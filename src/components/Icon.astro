@@ -1,0 +1,22 @@
+---
+interface Props { name?: string; size?: number; }
+const { name = 'target', size = 24 } = Astro.props;
+// 24x24 line icons (stroke = currentColor)
+const paths: Record<string, string> = {
+  'map-pin': '<path d="M12 21s-7-6.3-7-11a7 7 0 0114 0c0 4.7-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>',
+  'sparkles': '<path d="M12 3l1.8 4.7L18.5 9.5 13.8 11.3 12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/><path d="M18 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/>',
+  'target': '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="0.6" fill="currentColor"/>',
+  'google': '<path d="M21 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.1a4.4 4.4 0 01-1.9 2.9v2.4h3.1C20 17.6 21 15.1 21 12.2z"/><path d="M12 21c2.4 0 4.5-.8 6-2.2l-3.1-2.4c-.8.6-1.9.9-2.9.9-2.3 0-4.2-1.5-4.9-3.6H3.9v2.5A9 9 0 0012 21z"/><path d="M7.1 13.7a5.4 5.4 0 010-3.4V7.8H3.9a9 9 0 000 8.1z"/><path d="M12 6.6c1.3 0 2.5.5 3.4 1.3l2.6-2.6A9 9 0 003.9 7.8l3.2 2.5C7.8 8.1 9.7 6.6 12 6.6z"/>',
+  'bing': '<path d="M8 3l4 1.5V16l5-2.5-2-1-1.5-4L17 10l3 1.5v3L11 21V4.5z"/>',
+  'chat': '<path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/>',
+  'apple': '<path d="M16 13c0 3 2 4 2 4s-1.3 3-3 3c-1 0-1.5-.6-2.8-.6S10.8 20 9.7 20C8 20 6 16.8 6 13.7 6 10.8 8 9 9.8 9c1.1 0 2 .7 2.7.7.6 0 1.7-.8 3-.7 1.3.1 2.3.6 3 1.7-1.6 1-2.5 2.3-2.5 2.6z"/><path d="M14.5 6.5c.6-.8.6-2 .5-2.5-1 .1-2 .7-2.5 1.4-.5.6-.7 1.5-.6 2.3 1 .1 1.9-.5 2.6-1.2z"/>',
+  'star': '<path d="M12 3.5l2.6 5.3 5.9.9-4.2 4.1 1 5.9L12 17l-5.3 2.7 1-5.9L3.5 9.7l5.9-.9z"/>',
+  'shield': '<path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9.5 12l1.8 1.8L15 10"/>',
+  'tv': '<rect x="3" y="6" width="18" height="12" rx="2"/><path d="M8 22h8M12 6V3"/>',
+  'layout': '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M9 9v11"/>',
+  'brush': '<path d="M9.5 14.5L18 6a2 2 0 013 3l-8.5 8.5"/><path d="M9.5 14.5a3 3 0 00-4 4c2 .5 5 .5 6-2"/>',
+  'share': '<circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.2 11l7.6-4M8.2 13l7.6 4"/>',
+};
+const d = paths[name] || paths['target'];
+---
+<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={d}></svg>

@@ -1,0 +1,25 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import PageHero from '../components/PageHero.astro';
+import ReviewsSection from '../components/ReviewsSection.astro';
+import CTABand from '../components/CTABand.astro';
+import config from '../lib/config';
+---
+<Base title="Reviews & Results | Topeka SEO & PPC" description="Real client reviews and results behind Topeka SEO & PPC. 5.0-star rated work from the ServiceLine Pro book, now serving Topeka, KS.">
+  <Header slot="header" />
+  <PageHero
+    eyebrow="Reviews"
+    title="Real reviews. Real results."
+    subtitle={`${config.trust_signals.rating}-star rated. These are client results from the ServiceLine Pro track record that powers Topeka SEO & PPC. Topeka client reviews are being added as our new local profile grows.`}
+    crumbs={[{ name: 'Home', href: '/' }, { name: 'Reviews' }]}
+  />
+  <ReviewsSection reviews={config.reviews} maxReviews={config.reviews.length} compact={true} />
+  <CTABand showForm={false} heading="Want results like these in Topeka?" text="See your price, claim your category, and get a plan with no obligation." />
+  <Footer slot="footer" />
+</Base>
+<style>
+  /* compact ReviewsSection has no header; add top spacing */
+  :global(.reviews) { padding-block: var(--space-3xl); }
+</style>

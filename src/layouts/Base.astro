@@ -1,0 +1,147 @@
+---
+import config from '../lib/config';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  canonical?: string;
+  noindex?: boolean;
+  schema?: object | object[];
+}
+
+const {
+  title,
+  description = config.business.description,
+  ogImage = '/media/og-default.png',
+  canonical,
+  noindex = false,
+  schema,
+} = Astro.props;
+
+const fullTitle = title.includes(config.business.name) || title.includes(config.business.spoken_name || '___')
+  ? title
+  : `${title}${config.seo.title_suffix}`;
+
+const siteUrl = `https://${config.seo.domain}`;
+const canonicalUrl = canonical || new URL(Astro.url.pathname, siteUrl).href;
+const c = config.brand.colors;
+
+// ProfessionalService schema on every page (per build brief)
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  '@id': `${siteUrl}/#business`,
+  name: config.business.name,
+  alternateName: config.business.spoken_name,
+  description: config.business.description,
+  url: siteUrl,
+  telephone: config.business.phone_raw,
+  email: config.business.email,
+  image: new URL(ogImage, siteUrl).href,
+  priceRange: '$$',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: config.business.address.street,
+    addressLocality: config.business.address.city,
+    addressRegion: config.business.address.state,
+    postalCode: config.business.address.zip,
+    addressCountry: 'US',
+  },
+  ...(config.business.geo ? {
+    geo: { '@type': 'GeoCoordinates', latitude: config.business.geo.latitude, longitude: config.business.geo.longitude },
+  } : {}),
+  areaServed: { '@type': 'City', name: 'Topeka', containedInPlace: { '@type': 'State', name: 'Kansas' } },
+  openingHours: config.business.hours_schema || 'Mo-Fr 08:00-18:00',
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: config.trust_signals.rating,
+    reviewCount: config.trust_signals.review_count,
+    bestRating: '5', worstRating: '1',
+  },
+  foundingDate: String(config.business.founded_year),
+  founder: { '@type': 'Person', name: config.business.owner },
+  parentOrganization: { '@type': 'Organization', name: config.built_by.name, url: config.built_by.url },
+  sameAs: [config.built_by.url],
+};
+
+const extraSchemas = Array.isArray(schema) ? schema : schema ? [schema] : [];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="canonical" href={canonicalUrl} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={new URL(ogImage, siteUrl).href} />
+    <meta property="og:site_name" content={config.business.spoken_name || config.business.name} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL(ogImage, siteUrl).href} />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content={c.primary} />
+
+    <link rel="preload" href="/fonts/Montserrat-Bold.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/Inter-Regular.woff2" as="font" type="font/woff2" crossorigin />
+
+    <style is:inline set:html={`:root{
+      --color-primary:${c.primary};
+      --color-primary-rgb:${c.primary_rgb || '26, 76, 255'};
+      --color-primary-dark:color-mix(in srgb, ${c.primary} 80%, #000);
+      --color-primary-light:color-mix(in srgb, ${c.primary} 75%, #fff);
+      --color-secondary:${c.secondary};
+      --color-accent:${c.accent || c.primary};
+      --color-dark:${c.dark};
+      --color-light:${c.light};
+      --color-white:${c.white};
+    }`}></style>
+
+    <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
+    {extraSchemas.map(s => (
+      <script type="application/ld+json" set:html={JSON.stringify(s)} />
+    ))}
+
+    <meta name="view-transition" content="same-origin" />
+  </head>
+  <body>
+    <a href="#main-content" class="sr-only">Skip to main content</a>
+    <slot name="header" />
+    <main id="main-content">
+      <slot />
+    </main>
+    <slot name="footer" />
+
+    <script>
+      // Scroll reveal (progressive enhancement). Always reveals as a safety net
+      // so content can never be stuck invisible.
+      const els = document.querySelectorAll('.reveal');
+      const revealAll = () => els.forEach((el) => el.classList.add('is-visible'));
+      if (els.length && 'IntersectionObserver' in window) {
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); }
+          });
+        }, { rootMargin: '0px 0px 5% 0px' });
+        els.forEach((el) => io.observe(el));
+        // Safety: reveal everything shortly after load regardless of scroll.
+        window.addEventListener('load', () => setTimeout(revealAll, 1200));
+      } else {
+        revealAll();
+      }
+    </script>
+  </body>
+</html>

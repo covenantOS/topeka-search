@@ -1,0 +1,81 @@
+---
+import config from '../lib/config';
+import { servicePath } from '../lib/config';
+import Icon from './Icon.astro';
+interface Props { heading?: string; subtitle?: string; grouped?: boolean; }
+const {
+  heading = 'Every channel that wins Topeka. One price list.',
+  subtitle = 'Pick a service and the price is right there. No quote-gating, no games.',
+  grouped = true,
+} = Astro.props;
+const groups = (config.service_groups || []).map(g => ({
+  ...g,
+  services: config.services.filter(s => s.group === g.slug),
+}));
+---
+<section class="services-grid section">
+  <div class="container">
+    <div class="section-header-center">
+      <span class="section-label">Services</span>
+      <h2>{heading}</h2>
+      <p>{subtitle}</p>
+    </div>
+
+    {grouped ? groups.map((g) => (
+      <div class="svc-group">
+        <div class="svc-group-head">
+          <h3>{g.name}</h3>
+          {g.blurb && <p>{g.blurb}</p>}
+        </div>
+        <div class="svc-cards">
+          {g.services.map((s) => (
+            <a href={servicePath(s.slug)} class="svc-card reveal">
+              <span class="svc-icon"><Icon name={s.icon} size={22} /></span>
+              <h4 class="svc-name">{s.name}</h4>
+              <p class="svc-tag">{s.tagline}</p>
+              <div class="svc-foot">
+                <span class="svc-price">{s.price_summary}</span>
+                <span class="link-arrow">Details</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    )) : (
+      <div class="svc-cards">
+        {config.services.map((s) => (
+          <a href={servicePath(s.slug)} class="svc-card reveal">
+            <span class="svc-icon"><Icon name={s.icon} size={22} /></span>
+            <h4 class="svc-name">{s.name}</h4>
+            <p class="svc-tag">{s.tagline}</p>
+            <div class="svc-foot"><span class="svc-price">{s.price_summary}</span><span class="link-arrow">Details</span></div>
+          </a>
+        ))}
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .svc-group { margin-bottom: var(--space-2xl); }
+  .svc-group:last-child { margin-bottom: 0; }
+  .svc-group-head { margin-bottom: var(--space-lg); }
+  .svc-group-head h3 { font-size: var(--text-xl); display: inline-block; }
+  .svc-group-head p { color: var(--color-text-muted); margin: 0.25rem 0 0; font-size: 0.95rem; }
+  .svc-cards { display: grid; grid-template-columns: 1fr; gap: var(--space-md); }
+  @media (min-width: 640px) { .svc-cards { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1024px) { .svc-cards { grid-template-columns: repeat(4, 1fr); } }
+  .svc-card {
+    display: flex; flex-direction: column; gap: 0.5rem; padding: var(--space-lg);
+    background: var(--color-white); border: 1px solid var(--color-gray-200); border-radius: var(--radius-card);
+    color: var(--color-text); transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
+  }
+  .svc-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-card-hover); border-color: var(--color-primary); color: var(--color-text); }
+  .svc-icon { width: 44px; height: 44px; border-radius: 12px; background: rgba(var(--color-primary-rgb), 0.08); color: var(--color-primary); display: grid; place-items: center; }
+  .svc-name { font-size: var(--text-lg); margin: 0; }
+  .svc-tag { color: var(--color-text-light); font-size: 0.9rem; line-height: 1.45; margin: 0; flex: 1; }
+  .svc-foot { display: flex; align-items: center; justify-content: space-between; margin-top: var(--space-sm); padding-top: var(--space-sm); border-top: 1px solid var(--color-gray-100); }
+  .svc-price { font-family: var(--font-heading); font-weight: 700; color: var(--color-primary); font-size: 0.95rem; }
+  .svc-foot .link-arrow { font-size: 0.85rem; color: var(--color-text-muted); font-weight: 600; }
+  .svc-card:hover .svc-foot .link-arrow { color: var(--color-primary); }
+</style>

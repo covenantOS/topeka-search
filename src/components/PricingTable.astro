@@ -1,0 +1,79 @@
+---
+import type { ServicePricing } from '../lib/config';
+interface Props {
+  pricing?: ServicePricing;
+  heading?: string;
+  serviceName?: string;
+}
+const { pricing, heading = 'Pricing, upfront', serviceName = '' } = Astro.props;
+if (!pricing) return null;
+const tiers = pricing.tiers || [];
+const multi = tiers.length > 1;
+
+function fmt(price: number | string) {
+  if (typeof price === 'string') return price;
+  if (price === 0) return '$0';
+  return '$' + price.toLocaleString('en-US');
+}
+---
+<section class="pricing">
+  <div class="pricing-head">
+    <span class="section-label">No surprises</span>
+    <h2>{heading}</h2>
+    {pricing.headline && (
+      <p class="pricing-lead">
+        <span class="pricing-figure">{pricing.headline}</span>
+        {pricing.note && <span class="pricing-note">{pricing.note}</span>}
+      </p>
+    )}
+  </div>
+
+  <div class:list={['tier-grid', { multi }]}>
+    {tiers.map((t) => (
+      <div class:list={['tier', { featured: t.featured }]}>
+        {t.featured && <span class="tier-flag">{serviceName || 'Most popular'}</span>}
+        <h3 class="tier-name">{t.name}</h3>
+        <div class="tier-price">
+          <span class="tier-amount">{fmt(t.price)}</span>
+          {t.price_label && <span class="tier-period">{t.price_label}</span>}
+        </div>
+        {t.description && <p class="tier-desc">{t.description}</p>}
+        {t.features && (
+          <ul class="tier-features">
+            {t.features.map((f) => <li>{f}</li>)}
+          </ul>
+        )}
+        <a href="/contact/" class="btn btn-primary btn-full">{t.cta || 'Get started'}</a>
+      </div>
+    ))}
+  </div>
+  <p class="pricing-foot">Every price on this site is published on purpose. No discovery call required to learn what it costs.</p>
+</section>
+
+<style>
+  .pricing-head { margin-bottom: var(--space-xl); }
+  .pricing-head h2 { margin-bottom: var(--space-md); }
+  .pricing-lead { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.4rem 1rem; max-width: none; }
+  .pricing-figure { font-family: var(--font-heading); font-size: var(--text-3xl); font-weight: 800; color: var(--color-primary); letter-spacing: -0.03em; line-height: 1; }
+  .pricing-note { color: var(--color-text-light); font-size: var(--text-base); max-width: 48ch; }
+
+  .tier-grid { display: grid; grid-template-columns: 1fr; gap: var(--space-lg); }
+  .tier-grid.multi { grid-template-columns: 1fr; }
+  @media (min-width: 768px) { .tier-grid.multi { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); } }
+
+  .tier {
+    position: relative; background: var(--color-white); border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-card); padding: var(--space-xl); display: flex; flex-direction: column; gap: var(--space-md);
+  }
+  .tier.featured { border-color: var(--color-primary); box-shadow: var(--shadow-md); }
+  .tier-flag { position: absolute; top: -12px; left: var(--space-xl); background: var(--color-primary); color: #fff; font-family: var(--font-heading); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.3rem 0.7rem; border-radius: var(--radius-pill); }
+  .tier-name { font-size: var(--text-xl); }
+  .tier-price { display: flex; align-items: baseline; gap: 0.4rem; }
+  .tier-amount { font-family: var(--font-heading); font-size: var(--text-4xl); font-weight: 800; color: var(--color-dark); letter-spacing: -0.03em; line-height: 1; }
+  .tier-period { color: var(--color-text-muted); font-weight: 600; font-size: var(--text-base); }
+  .tier-desc { color: var(--color-text-light); margin: 0; font-size: var(--text-base); }
+  .tier-features { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.6rem; flex: 1; }
+  .tier-features li { position: relative; padding-left: 1.7rem; font-size: 0.95rem; color: var(--color-text-light); line-height: 1.5; }
+  .tier-features li::before { content: '✓'; position: absolute; left: 0; top: 0; color: var(--color-accent); font-weight: 800; }
+  .pricing-foot { margin-top: var(--space-lg); font-size: var(--text-sm); color: var(--color-text-muted); }
+</style>

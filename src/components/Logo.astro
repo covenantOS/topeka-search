@@ -1,0 +1,52 @@
+---
+/**
+ * Brand lockup: search-and-rank mark + "Topeka Search" wordmark.
+ * variant: 'dark' (default, for light backgrounds) | 'light' (for dark bg)
+ */
+import config from '../lib/config';
+
+interface Props {
+  variant?: 'dark' | 'light';
+  href?: string | null;
+  size?: number; // mark height in px
+  showEndorsement?: boolean;
+}
+const { variant = 'dark', href = '/', size = 40, showEndorsement = false } = Astro.props;
+const wordColor = variant === 'light' ? '#ffffff' : 'var(--color-dark)';
+const Tag = href ? 'a' : 'div';
+---
+
+<Tag {...(href ? { href } : {})} class="brand-lockup" aria-label={`${config.business.spoken_name} home`}>
+  <svg class="brand-mark" width={size} height={size} viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <rect width="48" height="48" rx="12" fill="var(--color-primary)" />
+    <!-- magnifier lens -->
+    <circle cx="20.5" cy="20.5" r="11" stroke="#ffffff" stroke-width="3.5" />
+    <!-- handle -->
+    <line x1="28.5" y1="28.5" x2="39" y2="39" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round" />
+    <!-- ascending rank bars inside the lens -->
+    <rect x="14.5" y="21" width="3" height="5" rx="1.2" fill="var(--color-accent)" />
+    <rect x="19" y="17.5" width="3" height="8.5" rx="1.2" fill="var(--color-accent)" />
+    <rect x="23.5" y="14" width="3" height="12" rx="1.2" fill="var(--color-accent)" />
+  </svg>
+  <span class="brand-text" style={`--word-color:${wordColor}`}>
+    <span class="brand-word">Topeka<span class="brand-accent"> SEO &amp; PPC</span></span>
+    {showEndorsement && <span class="brand-endorse">{config.business.endorsement}</span>}
+  </span>
+</Tag>
+
+<style>
+  .brand-lockup { display: inline-flex; align-items: center; gap: 0.6rem; text-decoration: none; line-height: 1; }
+  .brand-mark { flex-shrink: 0; display: block; }
+  .brand-text { display: flex; flex-direction: column; gap: 2px; }
+  .brand-word {
+    font-family: var(--font-heading); font-weight: 700; font-size: 1.3rem;
+    letter-spacing: -0.02em; color: var(--word-color); white-space: nowrap;
+  }
+  .brand-accent { color: var(--color-primary); }
+  .brand-endorse {
+    font-family: var(--font-body); font-size: 0.68rem; font-weight: 500;
+    letter-spacing: 0.02em; color: var(--color-text-muted); white-space: nowrap;
+  }
+  :global(.section-dark) .brand-endorse,
+  .brand-text[style*="#ffffff"] .brand-endorse { color: rgba(255,255,255,0.6); }
+</style>

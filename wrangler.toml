@@ -1,0 +1,10 @@
+# Cloudflare Pages configuration for Topeka Search (topekasearch.com)
+# Used when deploying via `wrangler pages deploy`.
+# For GitHub-connected deploys, set these in the Cloudflare dashboard:
+#   Build command:        npm run build
+#   Build output dir:     dist
+#   NODE_VERSION env var: 22
+
+name = "topeka-search"
+compatibility_date = "2025-01-01"
+pages_build_output_dir = "dist"

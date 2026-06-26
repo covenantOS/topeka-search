@@ -1,0 +1,594 @@
+# =====================================================================
+#  TOPEKA SEARCH — site.config.yaml
+#  Brand: Topeka Search  |  GBP/Legal DBA: Topeka SEO & PPC
+#  A DBA of Paradigm LLC  |  Endorsed: "by ServiceLine Pro"
+#  Single source of truth. Swap values here; the whole site updates.
+# =====================================================================
+
+business:
+  name: "Topeka SEO & PPC"           # visible + legal / GBP-facing brand
+  spoken_name: "Topeka SEO & PPC"     # the brand shown everywhere
+  legal_name: "Paradigm LLC (DBA Topeka SEO & PPC)"
+  endorsement: "by ServiceLine Pro"
+  owner: "William Hamilton"
+
+  # ---- NAP (Name / Address / Phone) -------------------------------
+  # !!! PLACEHOLDERS — replace all three with the REAL office details
+  # before launch. NAP must be identical across the site, the GBP,
+  # and every directory citation (this is the core ranking lever).
+  phone: "(785) 555-0142"             # PLACEHOLDER — real 785 number
+  phone_raw: "+17855550142"           # PLACEHOLDER
+  email: "hello@topekasearch.com"     # update if a different inbox is used
+  address:
+    street: "112 SW 6th Ave, Suite 200"   # PLACEHOLDER — real office
+    city: "Topeka"
+    state: "KS"
+    state_full: "Kansas"
+    zip: "66603"
+  address_note: "PLACEHOLDER address — swap for the real, verifiable office before GBP verification."
+
+  hours: "Monday – Friday: 8:00am – 6:00pm CST"
+  hours_schema: "Mo-Fr 08:00-18:00"
+  market: "Topeka, KS & the Topeka DMA"
+
+  tagline: "Topeka's SEO & PPC company — with prices upfront."
+  description: "Topeka Search (Topeka SEO & PPC) helps one local business per industry win Google in Topeka, Kansas. SEO, Google Ads, websites, and more — with transparent pricing published right on the page. By ServiceLine Pro."
+
+  google_maps_url: "https://www.google.com/maps/search/?api=1&query=Topeka+SEO+%26+PPC+Topeka+KS"
+  founded_year: 2020
+  geo:
+    latitude: 39.0473
+    longitude: -95.6752
+
+  team:
+    - name: "William Hamilton"
+      role: "Founder & CEO"
+    - name: "Victoria Hamilton"
+      role: "Director of Operations"
+    - name: "Daniel Gomez"
+      role: "Director of Fulfillment"
+    - name: "Kevin Morales"
+      role: "SEO Manager"
+    - name: "Rayssa Hamilton"
+      role: "Client Experience Manager"
+
+brand:
+  theme: "topeka-search"
+  colors:
+    primary: "#c0392b"        # ServiceLine Pro crimson
+    primary_rgb: "192, 57, 43"
+    secondary: "#2c2c2c"      # warm dark gray
+    accent: "#f0a019"         # electric amber (differentiator)
+    dark: "#1a1a1a"           # footer / dark bands
+    light: "#f7f4f0"          # warm light section bg
+    white: "#ffffff"
+  fonts:
+    heading: "Montserrat"
+    body: "Inter"
+  logo: "media/logo.svg"
+
+trust_signals:
+  rating: "5.0"
+  review_count: 8
+  review_platform: "Google"
+  badges:
+    - "Prices Upfront"
+    - "$0 Agency Fee on Ads"
+    - "One Client Per Industry"
+    - "Google Map Pack Specialists"
+    - "Locally Run in Topeka"
+    - "By ServiceLine Pro"
+
+# The signature mechanism: exclusivity. One business per category, per city.
+exclusivity:
+  note: "We take one client per industry in Topeka. When your category is claimed, it's gone for good."
+  claimed:
+    - "Tree Service"
+    - "Deck Builder"
+    - "Remodeler"
+    - "General Contractor"
+
+# Nav / page groupings
+service_groups:
+  - slug: "seo"
+    name: "SEO & AI Search"
+    blurb: "Rank in Google's Map Pack and get cited by AI."
+  - slug: "ads"
+    name: "Paid Advertising"
+    blurb: "Every major ad platform, managed for $0 agency fee or a flat rate."
+  - slug: "build"
+    name: "Web, Brand & Social"
+    blurb: "The site, brand, and presence that turn clicks into calls."
+
+# =====================================================================
+#  SERVICES — one page each at /{slug}-topeka/
+#  Every page publishes its price. That is the strategy.
+# =====================================================================
+services:
+  # ---------- SEO & AI SEARCH ----------
+  - slug: "seo"
+    name: "SEO"
+    nav_name: "Local SEO"
+    group: "seo"
+    icon: "map-pin"
+    tagline: "Own the Topeka Map Pack."
+    short_description: "Top-3 Map Pack rankings in Topeka through full Google Business Profile optimization, local content, citations, and review growth."
+    price_summary: "$2,500/mo"
+    keywords: ["seo topeka", "topeka seo", "seo company topeka", "seo services topeka", "local seo topeka"]
+    pricing:
+      headline: "$2,500"
+      note: "Per month. Includes a complimentary 10-day ranking boost to start. No long-term contract."
+      tiers:
+        - name: "Local SEO"
+          price: 2500
+          price_label: "/month"
+          featured: true
+          description: "Everything it takes to own the Topeka Map Pack and the organic results under it."
+          features:
+            - "Complimentary 10-day ranking boost"
+            - "Full Google Business Profile optimization"
+            - "Geo-grid rank tracking across Topeka"
+            - "Local landing pages & on-page SEO"
+            - "Citation building & NAP cleanup"
+            - "Review generation system"
+            - "Monthly reporting & strategy call"
+
+  - slug: "ai-seo"
+    name: "AI SEO"
+    nav_name: "AI SEO (GEO)"
+    group: "seo"
+    icon: "sparkles"
+    tagline: "Get found inside ChatGPT, Google AI, and Perplexity."
+    short_description: "Generative Engine Optimization that makes your Topeka business the answer AI assistants cite — not the one they skip."
+    price_summary: "$1,500/mo"
+    keywords: ["ai seo topeka", "generative engine optimization", "chatgpt seo", "google ai overviews"]
+    pricing:
+      headline: "$1,500"
+      note: "Per month. Add-on to an active Local SEO subscription."
+      tiers:
+        - name: "AI SEO (GEO)"
+          price: 1500
+          price_label: "/month"
+          featured: true
+          description: "Optimize to be cited by AI Overviews, ChatGPT Search, and Perplexity."
+          features:
+            - "llms.txt & AI-crawler accessibility"
+            - "Passage-level citability optimization"
+            - "Entity & brand-mention building"
+            - "Schema & structured data for AI"
+            - "AI visibility & mention tracking"
+            - "Requires an active Local SEO plan"
+
+  # ---------- PAID ADVERTISING ----------
+  - slug: "ppc-management"
+    name: "PPC Management"
+    nav_name: "PPC Management"
+    group: "ads"
+    icon: "target"
+    tagline: "Pay for clicks, not agency markup."
+    short_description: "Full paid-search management across Google and Microsoft for $0 agency fee. Every dollar of your budget funds your campaigns."
+    price_summary: "$0 agency fee"
+    keywords: ["ppc topeka", "ppc management topeka", "ppc agency topeka"]
+    pricing:
+      headline: "$0"
+      note: "Agency fee. You pick the ad budget; 100% of it funds your campaigns."
+      tiers:
+        - name: "Managed PPC"
+          price: 0
+          price_label: "$0 agency fee"
+          featured: true
+          description: "Pick any budget. We build, manage, and optimize it for zero agency markup."
+          features:
+            - "Google & Microsoft search campaigns"
+            - "Conversion tracking & call tracking"
+            - "Custom landing pages"
+            - "Ongoing bid & keyword optimization"
+            - "Transparent reporting — your spend, your account"
+            - "No long-term contract"
+
+  - slug: "google-ads-management"
+    name: "Google Ads Management"
+    nav_name: "Google Ads"
+    group: "ads"
+    icon: "google"
+    tagline: "The highest-intent clicks in Topeka — managed for free."
+    short_description: "Google Search, Performance Max, and Display campaigns managed for $0 agency fee. You set the budget, we make it convert."
+    price_summary: "$0 agency fee"
+    keywords: ["google ads management topeka", "google ads topeka", "adwords management topeka"]
+    pricing:
+      headline: "$0"
+      note: "Agency fee. You set the Google Ads budget; we manage it end-to-end."
+      tiers:
+        - name: "Managed Google Ads"
+          price: 0
+          price_label: "$0 agency fee"
+          featured: true
+          description: "Search, PMax, and Display — built and optimized around booked jobs."
+          features:
+            - "Search, Performance Max & Display"
+            - "Call & form conversion tracking"
+            - "Negative-keyword & budget discipline"
+            - "Landing pages that convert"
+            - "Weekly optimization"
+            - "You own the account and the data"
+
+  - slug: "microsoft-bing-ads"
+    name: "Microsoft & Bing Ads Management"
+    nav_name: "Microsoft / Bing Ads"
+    group: "ads"
+    icon: "bing"
+    tagline: "Cheaper clicks the competition forgets."
+    short_description: "Microsoft Advertising (Bing, Yahoo, DuckDuckGo) managed for $0 agency fee — often a lower cost-per-lead than Google."
+    price_summary: "$0 agency fee"
+    keywords: ["bing ads management topeka", "microsoft ads topeka"]
+    pricing:
+      headline: "$0"
+      note: "Agency fee. You pick the budget; we manage the Microsoft network end-to-end."
+      tiers:
+        - name: "Managed Microsoft Ads"
+          price: 0
+          price_label: "$0 agency fee"
+          featured: true
+          description: "Reach the Bing, Yahoo, and DuckDuckGo audience your competitors ignore."
+          features:
+            - "Microsoft Search Network campaigns"
+            - "Import & optimize from Google Ads"
+            - "Conversion & call tracking"
+            - "Lower average CPCs"
+            - "Transparent reporting"
+            - "No agency markup on spend"
+
+  - slug: "chatgpt-ads"
+    name: "ChatGPT Ads Management"
+    nav_name: "ChatGPT Ads"
+    group: "ads"
+    icon: "chat"
+    tagline: "Advertise where buyers now ask their questions."
+    short_description: "Be present inside AI assistant answers and emerging ChatGPT ad placements — managed for a flat monthly rate."
+    price_summary: "$500/mo"
+    keywords: ["chatgpt ads topeka", "ai ads topeka"]
+    pricing:
+      headline: "$500"
+      note: "Per month flat management fee, plus your ad budget."
+      tiers:
+        - name: "ChatGPT / AI Ads"
+          price: 500
+          price_label: "/month management"
+          featured: true
+          description: "Strategy, setup, and management for advertising inside AI search experiences."
+          features:
+            - "AI-placement strategy & setup"
+            - "Creative & message testing"
+            - "Audience targeting"
+            - "Conversion tracking"
+            - "Monthly reporting"
+            - "Flat fee — your media budget on top"
+
+  - slug: "apple-maps-ads"
+    name: "Apple Maps Ads Management"
+    nav_name: "Apple Maps Ads"
+    group: "ads"
+    icon: "apple"
+    tagline: "Own the map on every iPhone in Topeka."
+    short_description: "Apple Business Connect and Apple Maps ad placements managed so iPhone users find you first."
+    price_summary: "$500/mo"
+    keywords: ["apple maps ads topeka", "apple business connect topeka"]
+    pricing:
+      headline: "$500"
+      note: "Per month flat management fee, plus your ad budget."
+      tiers:
+        - name: "Apple Maps Ads"
+          price: 500
+          price_label: "/month management"
+          featured: true
+          description: "Get placed at the top of Apple Maps for searches across Topeka."
+          features:
+            - "Apple Business Connect setup"
+            - "Apple Maps ad placements"
+            - "Showcase & action-button optimization"
+            - "Review & photo management"
+            - "Monthly reporting"
+            - "Flat fee — your media budget on top"
+
+  - slug: "yelp-ads"
+    name: "Yelp Ads Management"
+    nav_name: "Yelp Ads"
+    group: "ads"
+    icon: "star"
+    tagline: "Turn Yelp from a cost into a channel."
+    short_description: "Yelp advertising and profile management that stops wasted spend and drives qualified Topeka leads."
+    price_summary: "$500/mo"
+    keywords: ["yelp ads topeka", "yelp advertising topeka"]
+    pricing:
+      headline: "$500"
+      note: "Per month flat management fee, plus your Yelp ad budget."
+      tiers:
+        - name: "Yelp Ads"
+          price: 500
+          price_label: "/month management"
+          featured: true
+          description: "Profile optimization plus ad management that protects your budget."
+          features:
+            - "Yelp profile optimization"
+            - "Ad campaign setup & management"
+            - "Spend caps & budget protection"
+            - "Lead & call tracking"
+            - "Review strategy"
+            - "Monthly reporting"
+
+  - slug: "local-services-ads"
+    name: "Local Services Ads Management"
+    nav_name: "Local Services Ads"
+    group: "ads"
+    icon: "shield"
+    tagline: "Google Guaranteed leads, pay-per-lead."
+    short_description: "Local Services Ads and the Google Guaranteed badge, managed so you only pay for real leads — not clicks."
+    price_summary: "$500/mo"
+    keywords: ["local services ads topeka", "google guaranteed topeka", "lsa management topeka"]
+    pricing:
+      headline: "$500"
+      note: "Per month flat management fee, plus your pay-per-lead budget."
+      tiers:
+        - name: "LSA Management"
+          price: 500
+          price_label: "/month management"
+          featured: true
+          description: "Google Guaranteed setup and ongoing lead-dispute management."
+          features:
+            - "Google Guaranteed verification & badge"
+            - "LSA profile & category setup"
+            - "Lead-dispute management (recover bad-lead spend)"
+            - "Budget & bidding management"
+            - "Review prompts to lift ranking"
+            - "Monthly reporting"
+
+  - slug: "ott-streaming-ads"
+    name: "OTT & Streaming TV Ads"
+    nav_name: "OTT / Streaming TV"
+    group: "ads"
+    icon: "tv"
+    tagline: "Run TV ads to Topeka households — for the price of digital."
+    short_description: "Connected TV and streaming campaigns targeted to Topeka, with free professional video production. $0 agency fee."
+    price_summary: "$0 agency fee"
+    keywords: ["ott advertising topeka", "streaming tv advertising topeka", "ctv ads topeka"]
+    pricing:
+      headline: "$0"
+      note: "Agency fee. Free professional video production included via our partner, Butel Media Group. You pick the media budget."
+      tiers:
+        - name: "OTT / Streaming TV"
+          price: 0
+          price_label: "$0 agency fee"
+          featured: true
+          description: "Household-level targeting on the streaming services Topeka actually watches."
+          features:
+            - "Free professional video production (Butel Media Group)"
+            - "Connected TV & streaming placements"
+            - "Geo & household targeting across the Topeka DMA"
+            - "Brand-safe premium inventory"
+            - "Performance reporting"
+            - "No agency markup on media"
+
+  # ---------- WEB, BRAND & SOCIAL ----------
+  - slug: "web-design"
+    name: "Web Design"
+    nav_name: "Web Design"
+    group: "build"
+    icon: "layout"
+    tagline: "A world-class website for $250 a month."
+    short_description: "A brand-new, lightning-fast website with unlimited pages and unlimited updates — for one flat monthly price. Hosting and speed-to-lead included."
+    price_summary: "$250/mo"
+    keywords: ["web design topeka", "website design topeka", "web development topeka"]
+    pricing:
+      headline: "$250"
+      note: "Per month. Unlimited pages, unlimited updates, hosting, and speed-to-lead included. Cancel anytime. One-time custom builds available on request."
+      tiers:
+        - name: "Website Subscription"
+          price: 250
+          price_label: "/month"
+          featured: true
+          description: "We design, build, host, and maintain it. You just send the changes."
+          features:
+            - "Brand-new custom design"
+            - "Unlimited pages & content"
+            - "Unlimited updates & edits"
+            - "Sub-2-second load times"
+            - "Speed-to-lead text-back built in"
+            - "Hosting, SSL & security included"
+            - "Cancel anytime"
+
+  - slug: "branding"
+    name: "Branding & Logo Design"
+    nav_name: "Branding & Logos"
+    group: "build"
+    icon: "brush"
+    tagline: "A brand that looks like the market leader."
+    short_description: "Logo design, brand identity, and graphic design that makes a Topeka business look established and trustworthy."
+    price_summary: "$750 logo package"
+    keywords: ["branding agency topeka", "logo design topeka", "graphic design topeka"]
+    pricing:
+      headline: "$750"
+      note: "Logo design package. Full brand identity systems and ongoing graphic design quoted per project."
+      tiers:
+        - name: "Logo Design Package"
+          price: 750
+          price_label: "one-time"
+          featured: true
+          description: "Everything you need to launch a clean, credible brand."
+          features:
+            - "Primary logo design"
+            - "Alternate & secondary marks"
+            - "5 revision rounds"
+            - "Color palette & font system"
+            - "Brand asset pack (print + web files)"
+            - "Full brand identity available — quoted per project"
+
+  - slug: "social-media"
+    name: "Social Media Marketing"
+    nav_name: "Social Media"
+    group: "build"
+    icon: "share"
+    tagline: "Show up consistently without lifting a finger."
+    short_description: "Done-for-you social media content, scheduling, and community management that keeps a Topeka business visible and credible."
+    price_summary: "$750/mo"
+    keywords: ["social media marketing topeka", "social media management topeka"]
+    pricing:
+      headline: "$750"
+      note: "Per month. (Proposed — confirm before launch.) Paid social ad spend billed separately at $0 agency fee."
+      tiers:
+        - name: "Social Media Management"
+          price: 750
+          price_label: "/month"
+          featured: true
+          description: "A steady, on-brand presence across the platforms that matter."
+          features:
+            - "Content creation & scheduling"
+            - "Profile optimization"
+            - "Community management & replies"
+            - "Monthly content calendar"
+            - "Performance reporting"
+            - "Paid social available at $0 agency fee"
+
+# =====================================================================
+#  PROOF — real ServiceLine Pro client results (the track record
+#  behind Topeka Search). Topeka client case studies added as they land.
+# =====================================================================
+reviews:
+  - author: "Issac & Mark"
+    company: "Construction, Plumbing & Roofing Corp."
+    text: "300+ high-value leads, $2M+ in new business, and 3M+ site visits across our four websites. They transformed our digital presence."
+    rating: 5
+  - author: "Dr. Martinez"
+    company: "Hearing Aid Provider"
+    text: "Our ranking jumped from 17.6 to 4.7 in six days. Six days. We went from invisible to the first page."
+    rating: 5
+  - author: "James L."
+    company: "W3 Electric"
+    text: "33 leads and 1,400% ROI from our new website. It loads instantly and converts like nothing we've had before."
+    rating: 5
+  - author: "Tom D."
+    company: "Move 4 Less"
+    text: "187 leads and 461% ROI. The Google Ads campaigns with zero agency fee changed our entire business model."
+    rating: 5
+  - author: "Sarah T."
+    company: "Bi-State Pest Control"
+    text: "357% increase in profile views, 2,784% more search appearances, 120% more calls. The Map Pack results speak for themselves."
+    rating: 5
+  - author: "Mike R."
+    company: "Chicago Heating & Cooling"
+    text: "20% revenue increase in the first year and 60+ new Google reviews. We expanded into new territories on the foundation they built."
+    rating: 5
+  - author: "Amanda K."
+    company: "Armstrong Air & Electric"
+    text: "52 leads and 160% ROI. They built a website that works as a sales tool, not just a brochure."
+    rating: 5
+  - author: "Rachel P."
+    company: "Leia's Loving Dog Care"
+    text: "1,169% more profile views, 870% more search appearances, 100% more calls. Our business doubled."
+    rating: 5
+
+case_studies:
+  - slug: "hearing-aid-provider"
+    title: "Hearing Aid Provider"
+    category: "Local SEO"
+    industry: "Healthcare"
+    result: "Rank 17.6 → 4.7 in 6 days"
+    metrics:
+      primary: "Rank 17.6 → 4.7"
+      secondary: "6 days to results"
+    blurb: "A stalled Map Pack listing moved from the bottom of page two to the top four in under a week of focused local SEO."
+  - slug: "waste-management"
+    title: "Local Waste Management Company"
+    category: "Local SEO"
+    industry: "Waste Management"
+    result: "Rank 18.0 → 2.4 in 6 weeks"
+    metrics:
+      primary: "Rank 18.0 → 2.4"
+      secondary: "6 weeks to results"
+    blurb: "Citation cleanup, GBP optimization, and local content lifted average rank into the Map Pack in six weeks."
+  - slug: "pest-control"
+    title: "Bi-State Pest Control"
+    category: "Local SEO"
+    industry: "Pest Control"
+    result: "357% more profile views"
+    metrics:
+      primary: "2,784% more search appearances"
+      secondary: "120% more calls"
+    blurb: "A full local SEO program turned an invisible profile into the most-found pest control listing in its market."
+  - slug: "construction-corp"
+    title: "Construction, Plumbing & Roofing Corp."
+    category: "Google Ads"
+    industry: "Construction"
+    result: "$2M+ in new business"
+    metrics:
+      primary: "$2M+ revenue"
+      secondary: "300+ leads, 3M+ visits"
+    blurb: "Zero-agency-fee Google Ads plus four conversion-built websites produced 300+ leads and over $2M in opportunity."
+  - slug: "move-4-less"
+    title: "Move 4 Less"
+    category: "Google Ads"
+    industry: "Moving"
+    result: "461% ROI"
+    metrics:
+      primary: "461% ROI"
+      secondary: "187 new leads"
+    blurb: "Tight match types and call tracking on a $0-agency-fee account delivered 187 leads at a 461% return."
+  - slug: "w3-electric"
+    title: "W3 Electric"
+    category: "Web Design"
+    industry: "Electrical"
+    result: "1,400% ROI"
+    metrics:
+      primary: "1,400% ROI"
+      secondary: "33 new leads"
+    blurb: "A fast, conversion-focused website turned existing traffic into 33 leads and a 1,400% return."
+  - slug: "creative-design-build"
+    title: "Creative Design & Build"
+    category: "Web Design"
+    industry: "Remodeling"
+    result: "1,025% ROI"
+    metrics:
+      primary: "1,025% ROI"
+      secondary: "75 new leads"
+    blurb: "A new site built around the high-ticket remodel buyer produced 75 leads and a 1,025% return."
+  - slug: "oupac-financial"
+    title: "Oupac Financial Services"
+    category: "Web Design"
+    industry: "Financial Services"
+    result: "1,475% ROI"
+    metrics:
+      primary: "1,475% ROI"
+      secondary: "26 new leads"
+    blurb: "Clearer messaging and a faster site lifted conversion enough to return nearly 15x on the build."
+  - slug: "chicago-heating-cooling"
+    title: "Chicago Heating & Cooling"
+    category: "Local SEO"
+    industry: "HVAC"
+    result: "20% revenue increase"
+    metrics:
+      primary: "20% revenue increase"
+      secondary: "60+ new Google reviews"
+    blurb: "Map Pack rankings plus a review engine grew revenue 20% and added 60+ reviews in year one."
+  - slug: "burkell-plumbing"
+    title: "Burkell Plumbing"
+    category: "Reputation"
+    industry: "Plumbing"
+    result: "75 new reviews"
+    metrics:
+      primary: "20% revenue increase"
+      secondary: "75 new reviews"
+    blurb: "A consistent review-generation system added 75 Google reviews and a 20% revenue bump."
+
+form:
+  # !!! PLACEHOLDER — replace with the real form endpoint (Zapier
+  # webhook, Formspree, etc.) before launch.
+  action: "https://formspree.io/f/REPLACE_WITH_REAL_ENDPOINT"
+
+seo:
+  domain: "topekasearch.com"
+  title_suffix: " | Topeka SEO & PPC"
+
+built_by:
+  name: "ServiceLine Pro"
+  url: "https://servicelinepro.com"
+  logo: "media/slp-logo.webp"
+  logo_white: "media/slp-logo-white.webp"
