@@ -2,7 +2,6 @@
 import Base from '../layouts/Base.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import ReviewsSection from '../components/ReviewsSection.astro';
 import CTABand from '../components/CTABand.astro';
 import Icon from '../components/Icon.astro';
 import config from '../lib/config';
@@ -10,60 +9,87 @@ import { servicePath } from '../lib/config';
 
 const { phone, phone_raw } = config.business;
 const claimed = config.exclusivity?.claimed || [];
-const featuredCases = config.case_studies.slice(0, 4);
 const FEATURED = ['seo', 'google-ads-management', 'web-design'];
 const trio = FEATURED.map((s) => config.services.find((x) => x.slug === s)).filter(Boolean) as typeof config.services;
+const reviews = config.reviews.slice(0, 6);
+const initials = (n: string) => n.trim().split(/\s+/).map(w => w[0]).slice(0, 2).join('').toUpperCase();
 
 const title = 'Topeka SEO, Google Ads & Web Design | Topeka SEO & PPC';
-const description = 'Topeka SEO, Google Ads, and web design built to scale your business from $1M to $10M. Prices upfront, $0 agency fee on Google Ads, one client per industry in Topeka, KS.';
+const description = 'Topeka SEO, Google Ads, and web design built to scale your business from $1M to $10M. Top-3 rankings, prices upfront, $0 agency fee on Google Ads. One client per industry in Topeka.';
 ---
 
 <Base title={title} description={description}>
   <Header slot="header" />
 
   <!-- HERO -->
-  <section class="hero">
+  <section class="hero grain">
+    <div class="glow-blobs"></div>
     <div class="container hero-inner">
       <div class="hero-copy">
-        <span class="hero-eyebrow">Topeka SEO &amp; PPC · by ServiceLine Pro</span>
-        <h1>Topeka <span class="hl">SEO</span>, <span class="hl">Google Ads</span> &amp; <span class="hl">web design</span> that scale you from $1M to $10M.</h1>
-        <p class="hero-sub">We get one local business per industry to the top of Google in Topeka. Prices published upfront. A $0 agency fee on Google Ads. Built on the ServiceLine Pro track record.</p>
-        <div class="hero-actions">
+        <span class="eyebrow rise" style="--d:0ms">Topeka SEO &amp; PPC · by ServiceLine Pro</span>
+        <h1 class="display">
+          <span class="rise" style="--d:80ms">Get your Topeka business to the</span>
+          <span class="rise" style="--d:180ms"><span class="mark">top of Google</span></span>
+          <span class="rise" style="--d:280ms">and scale it to <span class="ink">$10M</span></span>
+        </h1>
+        <p class="hero-sub rise" style="--d:400ms">SEO, Google Ads, and web design for one local business per industry in Topeka. Top-3 rankings, prices published upfront, and a $0 agency fee on Google Ads.</p>
+        <div class="hero-actions rise" style="--d:500ms">
           <a href="/contact/" class="btn btn-primary btn-lg">Get My Free Plan</a>
           <a href={`tel:${phone_raw}`} class="btn btn-outline btn-lg">Call {phone}</a>
         </div>
-        <ul class="hero-proof">
-          <li><strong>17.6&nbsp;→&nbsp;4.7</strong> map rank in 6 days</li>
-          <li><strong>$0</strong> agency fee on ads</li>
-          <li><strong>1,000%+</strong> website ROI</li>
-        </ul>
+        <div class="hero-tags rise" style="--d:600ms">
+          <span><b>★ 5.0</b> Google rating</span>
+          <span><b>Prices</b> on the page</span>
+          <span><b>1</b> client per industry</span>
+        </div>
       </div>
 
-      <div class="hero-visual">
-        <div class="browser">
-          <div class="browser-bar"><span></span><span></span><span></span><div class="browser-url">totalturfauto.com</div></div>
-          <img src="/media/work/total-turf-auto.webp" alt="Total Turf & Auto, a Topeka website built and ranked by Topeka SEO & PPC" width="1000" height="640" fetchpriority="high" />
+      <div class="hero-art rise" style="--d:350ms">
+        <div class="guarantee">
+          <span class="g-badge">The guarantee</span>
+          <p class="g-line">Top 3 in the Google Map Pack within <span class="ink">90 days</span>, or you don't pay.</p>
+          <div class="g-rank">
+            <div class="g-row win"><span class="g-pin">1</span><span class="g-name">Your business</span><span class="g-tag">You</span></div>
+            <div class="g-row"><span class="g-pin muted">2</span><span class="g-name muted">A competitor</span></div>
+            <div class="g-row"><span class="g-pin muted">3</span><span class="g-name muted">A competitor</span></div>
+          </div>
         </div>
-        <div class="hero-badge"><span class="stars">★★★★★</span><span>Real Topeka work, ranked &amp; converting</span></div>
+        <div class="float-chip chip-fee">$0 agency fee on Google Ads</div>
+        <div class="float-chip chip-rev">$2M+ in client pipeline</div>
       </div>
     </div>
   </section>
 
-  <!-- 3 CORE SERVICES -->
+  <!-- MARQUEE -->
+  <div class="marquee promo-marquee">
+    <div class="marquee-track">
+      {Array.from({length: 2}).map(() => (
+        <Fragment>
+          <span class="marquee-item">Prices Upfront<span class="marquee-dot"></span></span>
+          <span class="marquee-item">$0 Agency Fee on Ads<span class="marquee-dot"></span></span>
+          <span class="marquee-item">One Client Per Industry<span class="marquee-dot"></span></span>
+          <span class="marquee-item">Top 3 or You Don't Pay<span class="marquee-dot"></span></span>
+          <span class="marquee-item">Built by ServiceLine Pro<span class="marquee-dot"></span></span>
+        </Fragment>
+      ))}
+    </div>
+  </div>
+
+  <!-- 3 SERVICES -->
   <section class="section trio-sec">
     <div class="container">
       <div class="trio-head">
         <div>
-          <span class="section-label">What we do</span>
-          <h2>Three services we live and breathe</h2>
+          <span class="eyebrow">What we do</span>
+          <h2 class="display sm">Three things we <span class="mark">live and breathe</span></h2>
         </div>
-        <p>SEO, Google Ads, and web design are the engine. We sell other channels too, but these three are what we rank, run, and stake our name on.</p>
+        <p>SEO, Google Ads, and web design are the engine. We run other channels too, but these three are what we rank, run, and stake our name on.</p>
       </div>
       <div class="trio-grid">
         {trio.map((s, i) => (
-          <a href={servicePath(s.slug)} class="trio-card">
+          <a href={servicePath(s.slug)} class="trio-card reveal">
             <span class="trio-num">0{i + 1}</span>
-            <span class="trio-icon"><Icon name={s.icon} size={26} /></span>
+            <span class="trio-icon"><Icon name={s.icon} size={28} /></span>
             <h3>{s.nav_name || s.name}</h3>
             <p>{s.short_description}</p>
             <div class="trio-foot"><span class="trio-price">{s.price_summary}</span><span class="link-arrow">See details</span></div>
@@ -74,168 +100,228 @@ const description = 'Topeka SEO, Google Ads, and web design built to scale your 
     </div>
   </section>
 
-  <!-- REAL WORK -->
-  <section class="section section-alt work-sec">
-    <div class="container">
-      <div class="work-inner">
-        <div class="work-copy">
-          <span class="section-label">Real work</span>
-          <h2>Sites we build and rank for real businesses.</h2>
-          <p>We have shipped hundreds of high-performing websites. Fast, conversion-built, and made to rank, like Total Turf &amp; Auto here in Topeka. Not templates. Real businesses, real results.</p>
-          <a href="/work/" class="btn btn-outline">See our work</a>
-        </div>
-        <a href="/work/" class="work-shot">
-          <div class="browser small">
-            <div class="browser-bar"><span></span><span></span><span></span><div class="browser-url">totalturfauto.com</div></div>
-            <img src="/media/work/total-turf-auto.webp" alt="Total Turf & Auto website, Topeka KS" width="1000" height="640" />
-          </div>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- EXCLUSIVITY -->
-  <section class="section excl">
+  <!-- EXCLUSIVITY STATEMENT -->
+  <section class="section excl-band grain">
     <div class="container excl-inner">
       <div class="excl-copy">
-        <span class="section-label">One client per industry</span>
-        <h2>We only work with one business per industry in Topeka.</h2>
-        <p>{config.exclusivity?.note}</p>
-        <p class="excl-sub">When you work with us, we never run the same playbook for the competitor down the street. A few categories are already claimed in Topeka:</p>
-        <a href="/contact/" class="btn btn-primary">Check if your category is open</a>
+        <span class="eyebrow light">One client per industry</span>
+        <h2 class="display sm">When your category in Topeka is <span class="mark">claimed, it's gone.</span></h2>
+        <p>We only work with one business per industry here. We will never run the same playbook for the competitor down the street. A few categories are already taken:</p>
+        <a href="/contact/" class="btn btn-accent btn-lg">Check if your category is open</a>
       </div>
       <div class="excl-list">
         {claimed.map((c) => (<div class="excl-item taken"><span>{c}</span><span class="excl-flag">Claimed</span></div>))}
-        <div class="excl-item open"><span>Your industry?</span><span class="excl-flag open">Open</span></div>
+        <div class="excl-item open"><span>Your industry?</span><span class="excl-flag-open">Open →</span></div>
       </div>
     </div>
   </section>
 
-  <!-- RESULTS -->
-  <section class="section section-dark results">
+  <!-- RESULTS / COUNTERS -->
+  <section class="section results-sec">
     <div class="container">
       <div class="results-head">
-        <span class="section-label">Track record</span>
-        <h2>The numbers behind the name</h2>
-        <p>We run the ServiceLine Pro playbook. A sample of what it has delivered for local businesses:</p>
+        <span class="eyebrow">The receipts</span>
+        <h2 class="display sm">Real results we've put on the board</h2>
+        <p>We run the ServiceLine Pro playbook. These are real client outcomes, the kind we bring to Topeka.</p>
       </div>
-      <div class="results-grid">
-        {featuredCases.map((cs) => (
-          <div class="result-chip">
-            <span class="result-primary">{cs.metrics?.primary || cs.result}</span>
-            <span class="result-secondary">{cs.metrics?.secondary}</span>
-            <span class="result-name">{cs.title} · {cs.category}</span>
-          </div>
+      <div class="counters">
+        <div class="counter"><span class="count" data-to="2" data-prefix="$" data-suffix="M+">$0</span><span class="counter-label">in new business for one client</span></div>
+        <div class="counter"><span class="count" data-to="300" data-suffix="+">0</span><span class="counter-label">leads from one campaign</span></div>
+        <div class="counter"><span class="count" data-to="200" data-suffix="%">0</span><span class="counter-label">revenue increase</span></div>
+        <div class="counter"><span class="count plain">Top 3</span><span class="counter-label">Map Pack rankings</span></div>
+      </div>
+      <div class="case-row">
+        {config.case_studies.slice(0,3).map((cs) => (
+          <article class="case-card reveal">
+            <span class="case-cat">{cs.category}</span>
+            <span class="case-primary">{cs.metrics?.primary || cs.result}</span>
+            <span class="case-secondary">{cs.metrics?.secondary}</span>
+            <span class="case-name">{cs.title}</span>
+          </article>
         ))}
       </div>
-      <div class="results-cta"><a href="/case-studies/" class="btn btn-white">See the case studies</a></div>
+      <div class="results-cta"><a href="/case-studies/" class="link-arrow">See all the case studies</a></div>
     </div>
   </section>
 
-  <!-- LOCAL REP -->
+  <!-- REVIEWS -->
+  <section class="section section-alt reviews-sec">
+    <div class="container">
+      <div class="results-head">
+        <span class="eyebrow">Word of mouth</span>
+        <h2 class="display sm">Clients don't hold back</h2>
+      </div>
+      <div class="rev-grid">
+        {reviews.map((r) => (
+          <figure class="rev-card reveal">
+            <div class="rev-stars">★★★★★</div>
+            <blockquote>{r.text}</blockquote>
+            <figcaption><span class="rev-av">{initials(r.author)}</span><span><b>{r.author}</b>{r.company && <em>{r.company}</em>}</span></figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- LOCAL -->
   <section class="section local">
     <div class="container local-inner">
       <figure class="local-photo">
         <img src="/media/team/victoria-hamilton.webp" alt="Victoria Hamilton, your local Topeka rep" width="540" height="570" />
       </figure>
       <div class="local-copy">
-        <span class="section-label">Local, on purpose</span>
-        <h2>A real person in Topeka, on your account.</h2>
-        <p>Topeka SEO &amp; PPC is a family operation. Founder William Hamilton is a Topeka native, and his sister Victoria is your local rep on the ground here, so when you call, you reach someone who knows Topeka and knows your account.</p>
-        <p>We know this market. We have clients in Topeka, a local 785 line, and we answer the phone. <a href="/about/" class="link-arrow">More about us</a></p>
+        <span class="eyebrow">Local, on purpose</span>
+        <h2 class="display sm">A real person in Topeka on your account.</h2>
+        <p>We're a family operation. Founder William Hamilton is a Topeka native, and his sister Victoria is your rep on the ground here. Call us and you reach someone who knows Topeka and knows your account, not a ticket queue.</p>
+        <a href="/about/" class="link-arrow">More about us</a>
       </div>
     </div>
   </section>
 
-  <ReviewsSection compact={false} maxReviews={6} />
   <CTABand showForm={true} />
   <Footer slot="footer" />
 </Base>
 
+<script>
+  // Count-up animation
+  const counters = document.querySelectorAll('.count[data-to]');
+  const run = (el) => {
+    const to = parseFloat(el.getAttribute('data-to'));
+    const pre = el.getAttribute('data-prefix') || '';
+    const suf = el.getAttribute('data-suffix') || '';
+    const dur = 1400; const start = performance.now();
+    const step = (t) => {
+      const p = Math.min(1, (t - start) / dur);
+      const eased = 1 - Math.pow(1 - p, 3);
+      const val = to >= 100 ? Math.round(to * eased) : (to * eased).toFixed(1).replace(/\.0$/, '');
+      el.textContent = pre + val + suf;
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { run(e.target); io.unobserve(e.target); } }), { threshold: 0.4 });
+    counters.forEach((c) => io.observe(c));
+  } else { counters.forEach(run); }
+</script>
+
 <style>
   /* HERO */
-  .hero { background: var(--color-white); padding-block: var(--space-3xl); border-bottom: 1px solid var(--color-gray-200); }
-  .hero-inner { display: grid; grid-template-columns: 1fr; gap: var(--space-2xl); align-items: center; }
-  @media (min-width: 1024px) { .hero-inner { grid-template-columns: 1.05fr 0.95fr; gap: var(--space-3xl); } }
-  .hero-eyebrow { display: inline-block; font-family: var(--font-heading); font-weight: 700; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--color-primary); margin-bottom: var(--space-md); }
-  .hero h1 { font-size: clamp(2.1rem, 4.6vw, 3.4rem); line-height: 1.08; margin-bottom: var(--space-lg); }
-  .hero h1 .hl { color: var(--color-primary); }
-  .hero-sub { font-size: var(--text-lg); color: var(--color-text-light); max-width: 54ch; margin-bottom: var(--space-xl); }
+  .hero { position: relative; background: var(--color-light); padding-block: var(--space-3xl) var(--space-4xl); overflow: hidden; }
+  .hero-inner { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr; gap: var(--space-3xl); align-items: center; }
+  @media (min-width: 1000px) { .hero-inner { grid-template-columns: 1.1fr 0.9fr; } }
+  .hero h1.display { margin-bottom: var(--space-lg); }
+  .hero h1.display span { display: block; }
+  .hero-sub { font-size: var(--text-lg); color: var(--color-text-light); max-width: 52ch; margin-bottom: var(--space-xl); }
   .hero-actions { display: flex; flex-wrap: wrap; gap: var(--space-md); margin-bottom: var(--space-xl); }
-  .hero-proof { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 1.25rem 2rem; border-top: 1px solid var(--color-gray-200); padding-top: var(--space-lg); }
-  .hero-proof li { font-size: 0.85rem; color: var(--color-text-muted); }
-  .hero-proof strong { display: block; font-family: var(--font-heading); font-size: var(--text-xl); color: var(--color-dark); letter-spacing: -0.02em; }
+  .hero-tags { display: flex; flex-wrap: wrap; gap: 1.25rem 2rem; }
+  .hero-tags span { font-size: 0.9rem; color: var(--color-text-muted); }
+  .hero-tags b { color: var(--color-dark); font-family: var(--font-heading); }
 
-  .hero-visual { position: relative; }
-  .browser { border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-lg); border: 1px solid var(--color-gray-200); background: var(--color-white); }
-  .browser-bar { display: flex; align-items: center; gap: 6px; padding: 0.6rem 0.8rem; background: var(--color-gray-100); border-bottom: 1px solid var(--color-gray-200); }
-  .browser-bar span { width: 10px; height: 10px; border-radius: 50%; background: var(--color-gray-300); }
-  .browser-bar span:nth-child(1) { background: #e85b4a; } .browser-bar span:nth-child(2) { background: #f0c419; } .browser-bar span:nth-child(3) { background: #4caf50; }
-  .browser-url { margin-left: 0.6rem; font-size: 0.75rem; color: var(--color-text-muted); background: var(--color-white); border-radius: var(--radius-pill); padding: 0.2rem 0.8rem; flex: 1; max-width: 240px; }
-  .browser img { width: 100%; height: auto; display: block; }
-  .hero-badge { position: absolute; left: -0.5rem; bottom: -1rem; background: var(--color-white); border: 1px solid var(--color-gray-200); box-shadow: var(--shadow-md); border-radius: var(--radius-pill); padding: 0.5rem 1rem; display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; font-weight: 600; color: var(--color-text); }
-  .hero-badge .stars { color: var(--color-accent); }
+  .hero-art { position: relative; min-height: 360px; }
+  .guarantee { position: relative; z-index: 2; background: var(--color-white); border: 1px solid var(--color-gray-200); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); padding: var(--space-xl); max-width: 420px; margin-inline: auto; }
+  .g-badge { display: inline-block; font-family: var(--font-heading); font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--color-primary); background: rgba(var(--color-primary-rgb),0.08); padding: 0.3rem 0.7rem; border-radius: var(--radius-pill); margin-bottom: var(--space-md); }
+  .g-line { font-family: var(--font-heading); font-weight: 800; font-size: 1.4rem; line-height: 1.2; letter-spacing: -0.02em; color: var(--color-dark); margin-bottom: var(--space-lg); }
+  .g-rank { display: flex; flex-direction: column; gap: 0.5rem; }
+  .g-row { display: flex; align-items: center; gap: 0.7rem; padding: 0.6rem 0.7rem; border-radius: var(--radius-md); background: var(--color-gray-100); }
+  .g-row.win { background: rgba(var(--color-accent-rgb),0.14); border: 1px solid var(--color-accent); }
+  .g-pin { width: 26px; height: 26px; border-radius: 50%; background: var(--color-primary); color: #fff; display: grid; place-items: center; font-family: var(--font-heading); font-weight: 800; font-size: 0.8rem; flex-shrink: 0; }
+  .g-pin.muted { background: var(--color-gray-300); color: var(--color-gray-600); }
+  .g-name { font-family: var(--font-heading); font-weight: 700; color: var(--color-dark); font-size: 0.9rem; flex: 1; }
+  .g-name.muted { color: var(--color-gray-500); font-weight: 600; }
+  .g-tag { background: var(--color-accent); color: var(--color-dark); font-family: var(--font-heading); font-weight: 800; font-size: 0.68rem; padding: 0.15rem 0.5rem; border-radius: var(--radius-pill); }
+  .float-chip { position: absolute; z-index: 3; background: var(--color-dark); color: #fff; font-family: var(--font-heading); font-weight: 700; font-size: 0.82rem; padding: 0.6rem 1rem; border-radius: var(--radius-pill); box-shadow: var(--shadow-md); white-space: nowrap; }
+  .chip-fee { top: 4%; left: -2%; background: var(--color-primary); }
+  .chip-rev { bottom: 6%; right: -2%; }
+  @media (prefers-reduced-motion: no-preference) {
+    .float-chip { animation: floaty 4s ease-in-out infinite; }
+    .chip-rev { animation-delay: 1.5s; }
+    @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+  }
+  @media (max-width: 560px) { .float-chip { display: none; } }
+
+  /* MARQUEE */
+  .promo-marquee { background: var(--color-dark); padding-block: var(--space-md); border-block: 3px solid var(--color-primary); }
+  .promo-marquee .marquee-item { color: #fff; font-size: clamp(1rem, 2.4vw, 1.5rem); }
+  .promo-marquee .marquee-dot { background: var(--color-accent); }
 
   /* TRIO */
   .trio-head { display: grid; grid-template-columns: 1fr; gap: var(--space-md); margin-bottom: var(--space-2xl); align-items: end; }
-  @media (min-width: 900px) { .trio-head { grid-template-columns: 1fr 1fr; } .trio-head p { text-align: right; } }
-  .trio-head h2 { margin: 0; }
+  @media (min-width: 900px) { .trio-head { grid-template-columns: 1.3fr 1fr; } .trio-head p { text-align: right; } }
+  .trio-head h2 { margin: 0.5rem 0 0; }
   .trio-head p { color: var(--color-text-light); margin: 0; }
   .trio-grid { display: grid; grid-template-columns: 1fr; gap: var(--space-lg); }
   @media (min-width: 768px) { .trio-grid { grid-template-columns: repeat(3, 1fr); } }
   .trio-card { position: relative; display: flex; flex-direction: column; gap: 0.6rem; padding: var(--space-xl); background: var(--color-white); border: 1px solid var(--color-gray-200); border-radius: var(--radius-card); color: var(--color-text); transition: all var(--transition-base); overflow: hidden; }
-  .trio-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--color-primary); transform: scaleX(0); transform-origin: left; transition: transform var(--transition-base); }
-  .trio-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-card-hover); border-color: var(--color-primary); color: var(--color-text); }
+  .trio-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--color-primary); transform: scaleX(0); transform-origin: left; transition: transform var(--transition-base); }
+  .trio-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-card-hover); border-color: var(--color-primary); color: var(--color-text); }
   .trio-card:hover::before { transform: scaleX(1); }
-  .trio-num { position: absolute; top: var(--space-md); right: var(--space-lg); font-family: var(--font-heading); font-weight: 800; font-size: var(--text-2xl); color: var(--color-gray-200); }
-  .trio-icon { width: 52px; height: 52px; border-radius: 14px; background: rgba(var(--color-primary-rgb), 0.09); color: var(--color-primary); display: grid; place-items: center; }
+  .trio-num { position: absolute; top: var(--space-md); right: var(--space-lg); font-family: var(--font-heading); font-weight: 800; font-size: var(--text-3xl); color: var(--color-gray-200); }
+  .trio-icon { width: 56px; height: 56px; border-radius: 16px; background: rgba(var(--color-primary-rgb), 0.09); color: var(--color-primary); display: grid; place-items: center; transition: all var(--transition-base); }
+  .trio-card:hover .trio-icon { background: var(--color-primary); color: #fff; transform: rotate(-6deg); }
   .trio-card h3 { font-size: var(--text-xl); margin: 0; }
   .trio-card p { color: var(--color-text-light); font-size: 0.93rem; line-height: 1.55; margin: 0; flex: 1; }
   .trio-foot { display: flex; align-items: center; justify-content: space-between; margin-top: var(--space-sm); padding-top: var(--space-md); border-top: 1px solid var(--color-gray-100); }
-  .trio-price { font-family: var(--font-heading); font-weight: 700; color: var(--color-primary); }
+  .trio-price { font-family: var(--font-heading); font-weight: 800; color: var(--color-primary); font-size: 1.05rem; }
   .trio-foot .link-arrow { font-size: 0.85rem; color: var(--color-text-muted); font-weight: 600; }
   .trio-card:hover .trio-foot .link-arrow { color: var(--color-primary); }
   .trio-all { text-align: center; margin-top: var(--space-xl); }
-  .trio-all .link-arrow { font-weight: 700; color: var(--color-primary); }
+  .trio-all .link-arrow { font-weight: 800; color: var(--color-primary); }
 
-  /* WORK */
-  .work-inner { display: grid; grid-template-columns: 1fr; gap: var(--space-2xl); align-items: center; }
-  @media (min-width: 900px) { .work-inner { grid-template-columns: 0.9fr 1.1fr; } }
-  .work-copy h2 { margin-bottom: var(--space-md); }
-  .work-copy p { color: var(--color-text-light); margin-bottom: var(--space-lg); }
-  .work-shot { display: block; }
-  .browser.small { box-shadow: var(--shadow-md); }
-
-  /* EXCLUSIVITY */
-  .excl-inner { display: grid; grid-template-columns: 1fr; gap: var(--space-2xl); align-items: center; }
-  @media (min-width: 900px) { .excl-inner { grid-template-columns: 1.1fr 0.9fr; } }
-  .excl-copy h2 { margin-bottom: var(--space-md); }
-  .excl-copy p { color: var(--color-text-light); }
-  .excl-sub { font-size: 0.95rem; margin-bottom: var(--space-lg); }
-  .excl-list { display: flex; flex-direction: column; gap: 0.6rem; }
-  .excl-item { display: flex; justify-content: space-between; align-items: center; padding: 0.9rem 1.1rem; border-radius: var(--radius-md); font-family: var(--font-heading); font-weight: 600; border: 1px solid var(--color-gray-200); background: var(--color-white); }
-  .excl-item.taken { color: var(--color-text-muted); }
-  .excl-item.taken .excl-flag { color: var(--color-text-faint); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; }
-  .excl-item.open { background: rgba(var(--color-accent-rgb), 0.12); border-color: var(--color-accent); color: var(--color-dark); }
-  .excl-flag.open { color: #9a6700; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  /* EXCLUSIVITY BAND */
+  .excl-band { position: relative; background: var(--color-dark); color: rgba(255,255,255,0.82); overflow: hidden; }
+  .excl-inner { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr; gap: var(--space-2xl); align-items: center; }
+  @media (min-width: 900px) { .excl-inner { grid-template-columns: 1.2fr 0.8fr; } }
+  .excl-band h2 { color: #fff; margin: 0.5rem 0 var(--space-md); }
+  .eyebrow.light { color: var(--color-accent); }
+  .eyebrow.light::before { background: var(--color-accent); }
+  .excl-copy p { color: rgba(255,255,255,0.72); margin-bottom: var(--space-lg); max-width: 52ch; }
+  .excl-list { display: flex; flex-direction: column; gap: 0.55rem; }
+  .excl-item { display: flex; justify-content: space-between; align-items: center; padding: 0.95rem 1.2rem; border-radius: var(--radius-md); font-family: var(--font-heading); font-weight: 700; }
+  .excl-item.taken { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.55); }
+  .excl-item.taken .excl-flag { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: rgba(255,255,255,0.4); }
+  .excl-item.open { background: var(--color-accent); color: var(--color-dark); }
+  .excl-flag-open { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; }
 
   /* RESULTS */
   .results-head { max-width: 640px; margin-bottom: var(--space-2xl); }
-  .results-head p { color: rgba(255,255,255,0.7); }
-  .results-grid { display: grid; grid-template-columns: 1fr; gap: var(--space-md); }
-  @media (min-width: 640px) { .results-grid { grid-template-columns: 1fr 1fr; } }
-  @media (min-width: 1024px) { .results-grid { grid-template-columns: repeat(4, 1fr); } }
-  .result-chip { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-left: 3px solid var(--color-accent); border-radius: var(--radius-md); padding: var(--space-lg); display: flex; flex-direction: column; gap: 0.2rem; }
-  .result-primary { font-family: var(--font-heading); font-weight: 800; font-size: var(--text-lg); color: #fff; }
-  .result-secondary { color: var(--color-accent); font-size: 0.85rem; font-weight: 600; }
-  .result-name { color: rgba(255,255,255,0.55); font-size: 0.78rem; margin-top: 0.3rem; }
-  .results-cta { margin-top: var(--space-2xl); }
+  .results-head h2 { margin: 0.5rem 0 var(--space-sm); }
+  .results-head p { color: var(--color-text-light); }
+  .counters { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg); margin-bottom: var(--space-2xl); }
+  @media (min-width: 768px) { .counters { grid-template-columns: repeat(4, 1fr); } }
+  .counter { text-align: center; padding: var(--space-lg) var(--space-md); border-left: 3px solid var(--color-primary); }
+  .counter .count { display: block; font-size: clamp(2.2rem, 5vw, 3.2rem); }
+  .counter .count.plain { color: var(--color-primary); }
+  .counter-label { display: block; font-size: 0.85rem; color: var(--color-text-muted); margin-top: 0.3rem; }
+  .case-row { display: grid; grid-template-columns: 1fr; gap: var(--space-lg); }
+  @media (min-width: 768px) { .case-row { grid-template-columns: repeat(3, 1fr); } }
+  .case-card { background: var(--color-white); border: 1px solid var(--color-gray-200); border-radius: var(--radius-card); padding: var(--space-xl); display: flex; flex-direction: column; gap: 0.25rem; border-top: 4px solid var(--color-primary); transition: all var(--transition-base); }
+  .case-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-card-hover); }
+  .case-cat { font-family: var(--font-heading); font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-primary); }
+  .case-primary { font-family: var(--font-heading); font-weight: 800; font-size: var(--text-2xl); color: var(--color-dark); letter-spacing: -0.02em; line-height: 1.1; margin-top: 0.3rem; }
+  .case-secondary { color: var(--color-text-muted); font-weight: 600; font-size: 0.9rem; }
+  .case-name { font-size: 0.85rem; color: var(--color-text-faint); margin-top: var(--space-sm); }
+  .results-cta { margin-top: var(--space-xl); }
+  .results-cta .link-arrow { font-weight: 800; color: var(--color-primary); }
+
+  /* REVIEWS */
+  .reviews-sec .rev-grid { display: grid; grid-template-columns: 1fr; gap: var(--space-lg); }
+  @media (min-width: 700px) { .reviews-sec .rev-grid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1024px) { .reviews-sec .rev-grid { grid-template-columns: repeat(3, 1fr); } }
+  .rev-card { background: var(--color-white); border: 1px solid var(--color-gray-200); border-radius: var(--radius-card); padding: var(--space-lg); display: flex; flex-direction: column; gap: var(--space-sm); }
+  .rev-stars { color: var(--color-accent); letter-spacing: 2px; }
+  .rev-card blockquote { margin: 0; border: 0; padding: 0; font-size: 0.97rem; line-height: 1.6; color: var(--color-text); }
+  .rev-card figcaption { display: flex; align-items: center; gap: 0.6rem; margin-top: auto; padding-top: var(--space-sm); }
+  .rev-av { width: 38px; height: 38px; border-radius: 50%; background: var(--color-primary); color: #fff; display: grid; place-items: center; font-family: var(--font-heading); font-weight: 700; font-size: 0.8rem; }
+  .rev-card figcaption b { display: block; font-family: var(--font-heading); font-size: 0.9rem; color: var(--color-dark); }
+  .rev-card figcaption em { font-style: normal; font-size: 0.78rem; color: var(--color-text-muted); }
 
   /* LOCAL */
   .local-inner { display: grid; grid-template-columns: 1fr; gap: var(--space-2xl); align-items: center; }
   @media (min-width: 900px) { .local-inner { grid-template-columns: 0.8fr 1.2fr; } }
-  .local-photo { margin: 0; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md); max-width: 380px; }
+  .local-photo { margin: 0; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md); max-width: 360px; }
   .local-photo img { width: 100%; height: auto; display: block; }
-  .local-copy h2 { margin-bottom: var(--space-md); }
-  .local-copy p { color: var(--color-text-light); }
+  .local-copy h2 { margin: 0.5rem 0 var(--space-md); }
+  .local-copy p { color: var(--color-text-light); margin-bottom: var(--space-md); }
+  .display.sm { font-size: clamp(1.9rem, 4vw, 2.9rem); }
 </style>

@@ -442,3 +442,62 @@ strong { font-weight: 600; }
   .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
   .reveal.is-visible { opacity: 1; transform: none; }
 }
+
+/* =====================================================
+   ALIVE — motion, marker highlights, marquee, texture
+   ===================================================== */
+
+/* Highlighter marker behind key words (Hook Agency feel) */
+.mark { position: relative; white-space: nowrap; }
+.mark::before {
+  content: ''; position: absolute; left: -0.08em; right: -0.08em; bottom: 0.04em; top: 52%;
+  background: var(--color-accent); opacity: 0.85; z-index: -1; transform: rotate(-1.2deg);
+  border-radius: 3px 6px 4px 7px;
+}
+.mark.mark-red::before { background: var(--color-primary); opacity: 0.16; }
+.ink { color: var(--color-primary); }
+
+/* Staggered entrance on load */
+@media (prefers-reduced-motion: no-preference) {
+  .rise { opacity: 0; transform: translateY(22px); animation: riseIn 0.7s cubic-bezier(0.22,0.61,0.36,1) forwards; animation-delay: var(--d, 0ms); }
+  @keyframes riseIn { to { opacity: 1; transform: none; } }
+}
+
+/* Marquee */
+.marquee { overflow: hidden; position: relative; }
+.marquee-track { display: inline-flex; gap: 3rem; align-items: center; white-space: nowrap; will-change: transform; }
+@media (prefers-reduced-motion: no-preference) {
+  .marquee-track { animation: marquee 32s linear infinite; }
+  .marquee:hover .marquee-track { animation-play-state: paused; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+}
+.marquee-item { display: inline-flex; align-items: center; gap: 0.6rem; font-family: var(--font-heading); font-weight: 800; font-size: clamp(1.4rem, 3vw, 2.2rem); letter-spacing: -0.02em; color: var(--color-dark); text-transform: uppercase; }
+.marquee-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--color-primary); flex-shrink: 0; }
+
+/* Big animated counters */
+.count { font-family: var(--font-heading); font-weight: 800; letter-spacing: -0.04em; line-height: 0.95; color: var(--color-primary); }
+
+/* Grain / texture overlay (apply to a positioned section) */
+.grain::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0.5; z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+
+/* Warm hero glow blobs */
+.glow-blobs { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+.glow-blobs::before, .glow-blobs::after {
+  content: ''; position: absolute; border-radius: 50%; filter: blur(70px); opacity: 0.55;
+}
+.glow-blobs::before { width: 420px; height: 420px; background: radial-gradient(circle, rgba(var(--color-primary-rgb),0.5), transparent 70%); top: -120px; right: -80px; }
+.glow-blobs::after { width: 360px; height: 360px; background: radial-gradient(circle, rgba(var(--color-accent-rgb),0.5), transparent 70%); bottom: -140px; left: -60px; }
+
+/* Display heading (oversized, tight) */
+.display { font-size: clamp(2.4rem, 6vw, 4.6rem); line-height: 1.02; letter-spacing: -0.035em; font-weight: 800; }
+
+/* Eyebrow tag */
+.eyebrow { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-heading); font-weight: 700; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--color-primary); }
+.eyebrow::before { content: ''; width: 26px; height: 2px; background: var(--color-primary); }
+
+/* Angled dark statement band */
+.band-skew { position: relative; }

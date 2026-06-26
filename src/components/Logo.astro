@@ -1,52 +1,38 @@
 ---
 /**
- * Brand lockup: search-and-rank mark + "Topeka Search" wordmark.
- * variant: 'dark' (default, for light backgrounds) | 'light' (for dark bg)
+ * Word-art wordmark for "Topeka SEO & PPC" + real ServiceLine Pro logo
+ * for the "by ServiceLine Pro" endorsement.
+ * variant: 'dark' (default, light bg) | 'light' (dark bg)
  */
 import config from '../lib/config';
-
 interface Props {
   variant?: 'dark' | 'light';
   href?: string | null;
-  size?: number; // mark height in px
   showEndorsement?: boolean;
 }
-const { variant = 'dark', href = '/', size = 40, showEndorsement = false } = Astro.props;
-const wordColor = variant === 'light' ? '#ffffff' : 'var(--color-dark)';
+const { variant = 'dark', href = '/', showEndorsement = true } = Astro.props;
+const slp = variant === 'light' ? config.built_by.logo_white : config.built_by.logo;
 const Tag = href ? 'a' : 'div';
 ---
-
-<Tag {...(href ? { href } : {})} class="brand-lockup" aria-label={`${config.business.spoken_name} home`}>
-  <svg class="brand-mark" width={size} height={size} viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <rect width="48" height="48" rx="12" fill="var(--color-primary)" />
-    <!-- magnifier lens -->
-    <circle cx="20.5" cy="20.5" r="11" stroke="#ffffff" stroke-width="3.5" />
-    <!-- handle -->
-    <line x1="28.5" y1="28.5" x2="39" y2="39" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round" />
-    <!-- ascending rank bars inside the lens -->
-    <rect x="14.5" y="21" width="3" height="5" rx="1.2" fill="var(--color-accent)" />
-    <rect x="19" y="17.5" width="3" height="8.5" rx="1.2" fill="var(--color-accent)" />
-    <rect x="23.5" y="14" width="3" height="12" rx="1.2" fill="var(--color-accent)" />
-  </svg>
-  <span class="brand-text" style={`--word-color:${wordColor}`}>
-    <span class="brand-word">Topeka<span class="brand-accent"> SEO &amp; PPC</span></span>
-    {showEndorsement && <span class="brand-endorse">{config.business.endorsement}</span>}
+<Tag {...(href ? { href } : {})} class:list={['wm', variant]} aria-label="Topeka SEO & PPC, by ServiceLine Pro">
+  <span class="wm-line">
+    <span class="wm-topeka">Topeka</span><span class="wm-svc">SEO&nbsp;&amp;&nbsp;PPC</span>
   </span>
+  {showEndorsement && (
+    <span class="wm-by">by <img src={`/${slp}`} alt="ServiceLine Pro" height="13" /></span>
+  )}
 </Tag>
 
 <style>
-  .brand-lockup { display: inline-flex; align-items: center; gap: 0.6rem; text-decoration: none; line-height: 1; }
-  .brand-mark { flex-shrink: 0; display: block; }
-  .brand-text { display: flex; flex-direction: column; gap: 2px; }
-  .brand-word {
-    font-family: var(--font-heading); font-weight: 700; font-size: 1.3rem;
-    letter-spacing: -0.02em; color: var(--word-color); white-space: nowrap;
-  }
-  .brand-accent { color: var(--color-primary); }
-  .brand-endorse {
-    font-family: var(--font-body); font-size: 0.68rem; font-weight: 500;
-    letter-spacing: 0.02em; color: var(--color-text-muted); white-space: nowrap;
-  }
-  :global(.section-dark) .brand-endorse,
-  .brand-text[style*="#ffffff"] .brand-endorse { color: rgba(255,255,255,0.6); }
+  .wm { display: inline-flex; flex-direction: column; gap: 3px; text-decoration: none; line-height: 1; }
+  .wm-line { font-family: var(--font-heading); font-weight: 800; font-size: 1.32rem; letter-spacing: -0.03em; white-space: nowrap; display: inline-flex; align-items: baseline; gap: 0.32rem; }
+  .wm-topeka { color: var(--color-dark); }
+  .wm-svc { position: relative; color: var(--color-primary); }
+  .wm-svc::after { content: ''; position: absolute; left: -2px; right: -2px; bottom: 1px; height: 6px; background: var(--color-accent); opacity: 0.5; z-index: -1; border-radius: 2px; transform: rotate(-1deg); }
+  .wm-by { display: inline-flex; align-items: center; gap: 5px; font-family: var(--font-body); font-size: 0.62rem; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; color: var(--color-text-muted); }
+  .wm-by img { display: block; height: 13px; width: auto; }
+  .wm.light .wm-topeka { color: #fff; }
+  .wm.light .wm-svc { color: #fff; }
+  .wm.light .wm-by { color: rgba(255,255,255,0.6); }
+  .wm:hover .wm-svc::after { opacity: 0.9; }
 </style>
