@@ -61,6 +61,7 @@ export interface CaseStudy {
   category: string;
   industry?: string;
   location?: string;
+  image?: string;
   result: string;
   metrics?: {
     primary: string;
