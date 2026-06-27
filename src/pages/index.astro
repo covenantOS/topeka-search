@@ -24,9 +24,8 @@ const description = 'Local SEO that grows Topeka businesses from $1M to $10M. SE
   <Header slot="header" />
 
   <!-- HERO -->
-  <section class="hero">
-    <div class="hero-bg" style="background-image:url('/imagery/topeka-capitol.webp')"></div>
-    <div class="hero-overlay"></div>
+  <section class="hero grain">
+    <div class="hero-glow" aria-hidden="true"></div>
     <div class="container hero-inner">
       <div class="hero-copy">
         <span class="hero-ribbon">
@@ -189,10 +188,11 @@ const description = 'Local SEO that grows Topeka businesses from $1M to $10M. SE
 
 <style>
   /* HERO */
-  .hero { position: relative; color: #fff; overflow: hidden; background: var(--color-dark); }
-  .hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center 30%; }
-  .hero-overlay { position: absolute; inset: 0; background: linear-gradient(105deg, rgba(20,16,14,0.94) 0%, rgba(20,16,14,0.86) 42%, rgba(26,18,15,0.62) 100%); }
-  .hero::after { content: ''; position: absolute; top: -20%; right: -10%; width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(var(--color-primary-rgb),0.30), transparent 65%); pointer-events: none; }
+  .hero { position: relative; color: #fff; overflow: hidden; background: radial-gradient(120% 120% at 80% -10%, #2a1411 0%, #1a1110 45%, #120c0b 100%); }
+  .hero-glow { position: absolute; inset: 0; pointer-events: none; z-index: 0;
+    background:
+      radial-gradient(46% 60% at 82% 8%, rgba(var(--color-primary-rgb),0.42), transparent 60%),
+      radial-gradient(40% 55% at 6% 100%, rgba(var(--color-accent-rgb),0.16), transparent 60%); }
   .hero-inner { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr; gap: var(--space-2xl); align-items: center; padding-block: var(--space-3xl) var(--space-4xl); min-height: 72vh; }
   @media (min-width: 1000px) { .hero-inner { grid-template-columns: 1.15fr 0.85fr; gap: var(--space-3xl); } }
 
